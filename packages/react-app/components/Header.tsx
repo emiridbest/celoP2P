@@ -62,7 +62,7 @@ export default function Header() {
                             <div className="flex items-center">
                                 <Image
                                     className=" cursor-pointer"
-                                    src="/esusu.png"
+                                    src="/celo1.png"
                                     width="120"
                                     height="120"
                                     alt="EsusuLogo"
@@ -112,11 +112,11 @@ export default function Header() {
 
                             <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-prosperity px-3 py-2 rounded-md">
                                 <Link
-                                    onClick={() => router.push('/thrift')}
+                                    onClick={() => router.push('/exchange')}
                                     className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small text-gray-900"
                                     href={""}
                                 >
-                                    Thrift
+                                    Exchange
                                 </Link>
                             </div>
 

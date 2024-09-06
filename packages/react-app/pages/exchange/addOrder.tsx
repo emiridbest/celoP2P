@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { contractAddress, abi } from '@/utils/abi';
+import { contractAddress, abi } from '@/utils/p2pAbi';
 import { BrowserProvider, Contract } from 'ethers';
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 

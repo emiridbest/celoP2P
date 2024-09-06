@@ -18,13 +18,13 @@ const Links: React.FC = () => {
             </div>
             <div className="flex flex-col items-center p-4 m-2 bg-gypsum shadow rounded-lg cursor-pointer" onClick={() => router.push('/thrift')}>
                 <Image
-                    src="/thrift.png"
+                    src="/bills.png"
                     width="60"
                     height="60"
                     alt="Contribution"
                     className="mb-2"
                 />
-                <h3 className="text-xs  text-black">Contribution</h3>
+                <h3 className="text-xs  text-black">Exchange</h3>
             </div>
             <div className="flex flex-col items-center p-4 m-2 bg-gypsum shadow rounded-lg cursor-pointer" onClick={() => router.push('/utilityBills')}>
                 <Image

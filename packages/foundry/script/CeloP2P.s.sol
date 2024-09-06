@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import {Script, console} from "forge-std/Script.sol";
-import {P2P} from "../src/CeloP2P.sol";
+import {Script, console} from "forge-std/src/Script.sol";
+import {P2P1} from "../src/CeloP2P copy.sol";
 
 contract CounterScript is Script {
-    P2P public celoP2P;
+    P2P1 public celoP2P;
 
     function setUp() public {}
 

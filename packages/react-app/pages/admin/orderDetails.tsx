@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { BrowserProvider, Contract } from 'ethers';
 import { contractAddress, abi } from '@/utils/p2pAbi';
-import { Order } from './index';
+import { Order } from '../exchange/index';
 import { ArrowLeftCircleIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
 
@@ -88,7 +88,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
         }
     };
 
-    const enterOrder = async (id: number) => {
+    const releaseAsset = async (id: number) => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
@@ -96,8 +96,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                 const contract = new Contract(contractAddress, abi, signer);
 
                 const tx = isSellOrder
-                    ? await contract.updateSellOrderToActive(id)
-                    : await contract.updateBuyOrderToActive(id);
+                    ? await contract.releaseAsset(id, 1)
+                    : await contract.releaseAsset(id, 0);
 
                 await tx.wait();
                 router.push('/');
@@ -216,21 +216,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
             </div>
 
             <div className="mt-6 text-sm bg-black p-4 rounded-lg text-gray-600">
-                Before you confirm order as paid, make sure {buyer} has transferred  {total}{fiat} to {seller}
+                By clicking the Attest button, I affirmed I am sure {buyer} has transferred  {total}{fiat} to {seller}
             </div>
 
             <div className="mt-6 flex gap-4 text-sm">
                 <button
-                    onClick={() => enterOrder(order.id)}
+                    onClick={() => releaseAsset(order.id)}
                     className="py-2 px-4 bg-black rounded-lg text-prosperity"
                 >
-                    {isSellOrder ? 'Buy' : 'Sell'}
-                </button>
-                <button
-                    onClick={() => completeOrder(order.id)}
-                    className="py-2 px-4 bg-black rounded-lg text-prosperity"
-                >
-                    Paid
+                    Attest
                 </button>
             </div>
         </div>

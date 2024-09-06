@@ -2,11 +2,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { contractAddress, abi } from '@/utils/p2pAbi';
 import { BrowserProvider, Contract, ZeroAddress, ethers } from 'ethers';
-import OrderCard from './orderCard';
+import OrderCard from '../exchange/orderCard';
 import { useRouter } from 'next/router';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
-import MyOrders from './myOrders';
 
 
 export interface Order {
@@ -25,8 +24,7 @@ export interface Order {
 const Main: React.FC = () => {
     const [sellOrders, setSellOrders] = useState<Order[]>([]);
     const [buyOrders, setBuyOrders] = useState<Order[]>([]);
-    const [myBuyOrders, setMyBuyOrders] = useState<Order[]>([]);
-    const [mySellOrders, setMySellOrders] = useState<Order[]>([]);
+
 
     const router = useRouter();
 
@@ -38,8 +36,8 @@ const Main: React.FC = () => {
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
 
-                const sellOrderIds = await contract.getOpenSellOrders();
-                const buyOrderIds = await contract.getOpenBuyOrders();
+                const sellOrderIds = await contract.getCompleteSellOrders();
+                const buyOrderIds = await contract.getCompleteBuyOrders();
 
                 const formattedSellOrders: Order[] = [];
                 for (const sellOrderIdBN of sellOrderIds) {
@@ -66,49 +64,6 @@ const Main: React.FC = () => {
             }
         }
     }, []);
-    const getMyOrders = useCallback(async (paid: boolean) => {
-        if (window.ethereum) {
-            try {
-                const provider = new BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
-                const address = await signer.getAddress();
-
-                const sellOrderIds = await contract.getAllSellOrders();
-                const buyOrderIds = await contract.getAllBuyOrders();
-
-                const formattedSellOrders: Order[] = [];
-                for (const sellOrderIdBN of sellOrderIds) {
-                    const id = parseInt(sellOrderIdBN + 1);
-                    const details = await contract.getSellOrderDetails(id);
-                    formattedSellOrders.push({ ...details, key: id });
-                }
-
-
-                const formattedBuyOrders: Order[] = [];
-                for (const buyOrderIdBN of buyOrderIds) {
-                    const id = parseInt(buyOrderIdBN + 1);
-                    const details = await contract.getBuyOrderDetails(id);
-                    formattedBuyOrders.push({ ...details, key: id });
-                    console.log(formattedBuyOrders, `11`);
-                }
-                const mySellOrders = formattedSellOrders.filter(order =>
-                    order[6].toLowerCase() === address.toLowerCase() && order[5] == paid
-                );
-                const myBuyOrders = formattedBuyOrders.filter(order =>
-                    order[7].toLowerCase() === address.toLowerCase() && order[5] == paid
-                );
-
-                setMySellOrders(mySellOrders);
-                setMyBuyOrders(myBuyOrders);
-
-
-
-            } catch (error) {
-                console.error("Error fetching orders:", error);
-            }
-        }
-    }, []);
 
     const handleAddOrder = () => {
         router.push('/addOrder');
@@ -117,7 +72,6 @@ const Main: React.FC = () => {
  
     useEffect(() => {
         getOrders();
-        getMyOrders(false);
     }, [getOrders]);
 
 
@@ -135,26 +89,7 @@ const Main: React.FC = () => {
                         Welcome to your No. 1 P2P trading gateway!!!
                     </p>
                     <h3 className="text-black text-1xl ml-4 font-bold sm:text-2xl">
-                        My Orders
-                    </h3>
-                    <div className="flex flex-col">
-                        {mySellOrders.map(order => (
-                            <MyOrders
-                                key={order.id}
-                                order={order}
-                                isSellOrder={true}
-                            />
-                        ))}
-                        {myBuyOrders.map(order => (
-                            <MyOrders
-                                key={order.id}
-                                order={order}
-                                isSellOrder={false}
-                            />
-                        ))}
-                    </div>
-                    <h3 className="text-black text-1xl ml-4 font-bold sm:text-2xl">
-                        Available Orders
+                        Completed Orders
                     </h3>
 
                 </div>
