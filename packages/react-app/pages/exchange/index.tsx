@@ -45,7 +45,7 @@ const Main: React.FC = () => {
                 const formattedSellOrders: Order[] = [];
                 for (const sellOrderIdBN of sellOrderIds) {
                     const id = parseInt(sellOrderIdBN + 1);
-                    const details = await contract.getSellOrderDetails(id);
+                    const details = await contract.sellOrder(id);
                     formattedSellOrders.push({ ...details, key: id });
                 }
 
@@ -53,7 +53,7 @@ const Main: React.FC = () => {
                 const formattedBuyOrders: Order[] = [];
                 for (const buyOrderIdBN of buyOrderIds) {
                     const id = parseInt(buyOrderIdBN + 1);
-                    const details = await contract.getBuyOrderDetails(id);
+                    const details = await contract.buyOrder(id);
                     formattedBuyOrders.push({ ...details, key: id });
                     console.log(formattedBuyOrders);
                 }
@@ -67,7 +67,7 @@ const Main: React.FC = () => {
             }
         }
     }, []);
-    const getMyOrders = useCallback(async (paid: boolean) => {
+    const getMyOrders = useCallback(async () => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
@@ -75,13 +75,13 @@ const Main: React.FC = () => {
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
 
-                const sellOrderIds = await contract.getAllSellOrders();
-                const buyOrderIds = await contract.getAllBuyOrders();
+                const sellOrderIds = await contract.myOpenSellorders();
+                const buyOrderIds = await contract.myOpenBuyOrders();
 
                 const formattedSellOrders: Order[] = [];
                 for (const sellOrderIdBN of sellOrderIds) {
                     const id = parseInt(sellOrderIdBN + 1);
-                    const details = await contract.getSellOrderDetails(id);
+                    const details = await contract.sellOrder(id);
                     formattedSellOrders.push({ ...details, key: id });
                 }
 
@@ -89,17 +89,13 @@ const Main: React.FC = () => {
                 const formattedBuyOrders: Order[] = [];
                 for (const buyOrderIdBN of buyOrderIds) {
                     const id = parseInt(buyOrderIdBN + 1);
-                    const details = await contract.getBuyOrderDetails(id);
+                    const details = await contract.buyOrder(id);
                     formattedBuyOrders.push({ ...details, key: id });
                     console.log(formattedBuyOrders, `11`);
                 }
-                const mySellOrders = formattedSellOrders.filter(order =>
-                    order[6].toLowerCase() === address.toLowerCase() && order[5] == paid
-                );
-                const myBuyOrders = formattedBuyOrders.filter(order =>
-                    order[7].toLowerCase() === address.toLowerCase() && order[5] == paid
-                );
-
+                const mySellOrders = formattedSellOrders;
+                const myBuyOrders = formattedBuyOrders;
+console.log(myBuyOrders);
                 setMySellOrders(mySellOrders);
                 setMyBuyOrders(myBuyOrders);
 
@@ -118,13 +114,14 @@ const Main: React.FC = () => {
  
     useEffect(() => {
         getOrders();
-        getMyOrders(false);
+        getMyOrders();
     }, [getOrders]);
 
 
     return (
-        <div className="bg-prosperity max-w-screen-xl mx-auto px-4 md:px-8">
-        <main className="w-full lg:w-2/3 p-4">
+        <div className="container mx-auto p-4 lg:p-0">
+        <div className="flex flex-col lg:flex-row text-sm ">
+        <aside className="w-full lg:w-2/3 p-4">
                 <div className="max-w-lg">
                     <div className="flex justify-end">
                         <PlusCircleIcon
@@ -177,7 +174,8 @@ const Main: React.FC = () => {
                     ))}
                 </div>
 
-            </main>
+            </aside>
+            </div>
             <aside className="w-full lg:w-1/3 p-4 border rounded-md">
           <TransactionList />
 

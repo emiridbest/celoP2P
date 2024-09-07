@@ -25,7 +25,8 @@ const AddOrder: React.FC = () => {
                 const provider = new BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-                const tx = await contract.addSellOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank);
+                const gasLimit = parseInt("600000");
+                const tx = await contract.addSellOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank, {gasLimit});
                 await tx.wait();
                 router.push('/');
             } catch (error) {
@@ -40,7 +41,8 @@ const AddOrder: React.FC = () => {
                 const provider = new BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-                const tx = await contract.addBuyOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank);
+                const gasLimit = parseInt("600000");
+                const tx = await contract.addBuyOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank, {gasLimit});
                 await tx.wait();
                 router.push('/');
             } catch (error) {

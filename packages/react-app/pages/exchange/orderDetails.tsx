@@ -81,7 +81,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                     : await contract.updateBuyOrderToPaid(id);
 
                 await tx.wait();
-                router.push('/');
+                router.push('/exchange');
             } catch (error) {
                 console.error("Error updating order:", error);
             }
@@ -100,7 +100,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                     : await contract.updateBuyOrderToActive(id);
 
                 await tx.wait();
-                router.push('/');
+                router.push('/exchange');
             } catch (error) {
                 console.error("Error updating order:", error);
             }

@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { contractAddress, abi } from '@/utils/p2pAbi';
 import { BrowserProvider, Contract, ZeroAddress, ethers } from 'ethers';
-import OrderCard from '../exchange/orderCard';
+import OrderCard from './orderCard';
 import { useRouter } from 'next/router';
 
 
@@ -35,13 +35,13 @@ const Main: React.FC = () => {
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
 
-                const sellOrderIds = await contract.getCompleteSellOrders();
-                const buyOrderIds = await contract.getCompleteBuyOrders();
+                const sellOrderIds = await contract.getAllCompleteSellOrders();
+                const buyOrderIds = await contract.getAllCompleteBuyOrders();
 
                 const formattedSellOrders: Order[] = [];
                 for (const sellOrderIdBN of sellOrderIds) {
                     const id = parseInt(sellOrderIdBN + 1);
-                    const details = await contract.getSellOrderDetails(id);
+                    const details = await contract.sellOrder(id);
                     formattedSellOrders.push({ ...details, key: id });
                 }
 
@@ -49,7 +49,7 @@ const Main: React.FC = () => {
                 const formattedBuyOrders: Order[] = [];
                 for (const buyOrderIdBN of buyOrderIds) {
                     const id = parseInt(buyOrderIdBN + 1);
-                    const details = await contract.getBuyOrderDetails(id);
+                    const details = await contract.buyOrder(id);
                     formattedBuyOrders.push({ ...details, key: id });
                     console.log(formattedBuyOrders);
                 }

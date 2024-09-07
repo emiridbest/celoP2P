@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { BrowserProvider, Contract } from 'ethers';
 import { contractAddress, abi } from '@/utils/p2pAbi';
-import { Order } from '../exchange/index';
+import { Order } from './index';
 import { ArrowLeftCircleIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
 
@@ -69,24 +69,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const [messages, setMessages] = useState<string[]>([]);
     const [newMessage, setNewMessage] = useState<string>("");
 
-    const completeOrder = async (id: number) => {
-        if (window.ethereum) {
-            try {
-                const provider = new BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
-
-                const tx = isSellOrder
-                    ? await contract.updateSellOrderToPaid(id)
-                    : await contract.updateBuyOrderToPaid(id);
-
-                await tx.wait();
-                router.push('/');
-            } catch (error) {
-                console.error("Error updating order:", error);
-            }
-        }
-    };
 
     const releaseAsset = async (id: number) => {
         if (window.ethereum) {
@@ -94,13 +76,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                 const provider = new BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-
+                const gasLimit = parseInt("600000");
                 const tx = isSellOrder
-                    ? await contract.releaseAsset(id, 1)
-                    : await contract.releaseAsset(id, 0);
-
+                    ? await contract.releaseAsset(id, 1, {gasLimit})
+                    : await contract.releaseAsset(id, 0, {gasLimit});
+console.log(id);
                 await tx.wait();
-                router.push('/');
+                router.push('/admin');
             } catch (error) {
                 console.error("Error updating order:", error);
             }
@@ -108,7 +90,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     };
 
     const handleReturnHome = () => {
-        router.push('/');
+        router.push('/admin');
     };
 
     const handleSendMessage = () => {
@@ -124,13 +106,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const seller = order[7].toString();
     const total = (units * price).toString();
 
-    function truncateAddress(address: string, startLength = 6, endLength = 4) {
-        if (!address) return '';
-        const start = address.substring(0, startLength);
-        const end = address.substring(address.length - endLength);
-        return `${start}...${end}`;
-    }
-    
+
     return (
         <div className="p-3">
             <div className="flex items-center gap-2">
@@ -172,11 +148,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                         </div>
                         <div className="flex justify-between">
                             <span>Seller:</span>
-                            <span>{truncateAddress(order[7])}</span>
+                            <span>{order[7]}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Buyer:</span>
-                            <span>{truncateAddress(order[8])}</span>
+                            <span>{order[8]}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Fiat:</span>
