@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { contractAddress, abi } from '@/utils/p2pAbi';
 import { BrowserProvider, Contract } from 'ethers';
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
+import { toast } from 'react-toastify';
+import { parseEther } from 'viem';
 
 enum FiatCurrency {
     NGN = 0, // Nigerian Naira
@@ -18,7 +20,40 @@ const AddOrder: React.FC = () => {
     const [accountNumber, setAccountNumber] = useState<string>('');
     const [fiatCurrency, setFiatCurrency] = useState<FiatCurrency>(FiatCurrency.NGN);
     const router = useRouter();
+    const [isApproved, setIsApproved] = useState(false);
+    const [buttonText, setButtonText] = useState('Approve');
+    const cUsdTokenAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1" //"0x765DE816845861e75A25fCA122bb6898B8B1282a";
+    const approveSpend = async () => {
+        if (window.ethereum) {
+            try {
+                let accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+                let userAddress = accounts[0];
+                const provider = new BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner(userAddress);
+                const gasLimit = parseInt("600000");
 
+                const tokenAbi = [
+                    "function allowance(address owner, address spender) view returns (uint256)",
+                    "function approve(address spender, uint256 amount) returns (bool)"
+                ];
+                const tokenContract = new Contract(cUsdTokenAddress, tokenAbi, signer);
+
+                let tx = await tokenContract.approve(contractAddress, parseEther("1"), { gasLimit });
+                setButtonText('Approving...');
+                await tx.wait();
+                setIsApproved(true);
+                toast.success('Approval successful!');
+
+            } catch (error) {
+                console.error("Error approving spend:", error);
+                setIsApproved(false);
+                toast.error('Approval failed!');
+            }
+        } else {
+            toast.error('Ethereum object not found');
+        }
+
+    }
     const handleAddSellOrder = async (amount: number, price: number, bank: string, accountNumber: string, fiatCurrency: FiatCurrency) => {
         if (window.ethereum) {
             try {
@@ -26,9 +61,10 @@ const AddOrder: React.FC = () => {
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
                 const gasLimit = parseInt("600000");
+                await approveSpend();
                 const tx = await contract.addSellOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank, {gasLimit});
                 await tx.wait();
-                router.push('/');
+                router.push('/exchange');
             } catch (error) {
                 console.error("Error adding sell order:", error);
             }
@@ -44,7 +80,7 @@ const AddOrder: React.FC = () => {
                 const gasLimit = parseInt("600000");
                 const tx = await contract.addBuyOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank, {gasLimit});
                 await tx.wait();
-                router.push('/');
+                router.push('/exchange');
             } catch (error) {
                 console.error("Error adding buy order:", error);
             }
@@ -52,7 +88,7 @@ const AddOrder: React.FC = () => {
     };
 
     const handleReturnHome = () => {
-        router.push('/');
+        router.push('/exchange');
     };
 
     return (

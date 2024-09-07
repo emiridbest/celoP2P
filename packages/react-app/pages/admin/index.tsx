@@ -75,7 +75,6 @@ const Main: React.FC = () => {
                 <div className="max-w-lg">
   
                     <p className="text-black mt-2 text-1xl">
-                        Welcome to your No. 1 P2P trading gateway!!!
                     </p>
                     <h3 className="text-black text-1xl ml-4 font-bold sm:text-2xl">
                         Completed Orders

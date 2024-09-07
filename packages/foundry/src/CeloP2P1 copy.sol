@@ -89,7 +89,10 @@ contract P2P1 is ERC20, ReentrancyGuard, Ownable {
     function setSchemaID(uint64 schemaId_) external onlyOwner {
         schemaId = schemaId_;
     }
-    function releaseAsset(uint256 _id, bool isSellOrder) external onlyOwner returns (uint64) {
+    function releaseAsset(
+        uint256 _id,
+        bool isSellOrder
+    ) external onlyOwner returns (uint64) {
         Order storage order = isSellOrder ? sellOrders[_id] : buyOrders[_id];
         if (order.isComplete == true) {
             require(
@@ -105,6 +108,14 @@ contract P2P1 is ERC20, ReentrancyGuard, Ownable {
             bytes[] memory recipients = new bytes[](2);
             recipients[0] = abi.encode(order.seller);
             recipients[1] = abi.encode(order.buyer);
+            bytes memory data = abi.encode(
+                _id,
+                isSellOrder,
+                order.amount,
+                order.seller,
+                order.buyer
+            );
+
             Attestation memory a = Attestation({
                 schemaId: schemaId,
                 linkedAttestationId: 0,
@@ -115,7 +126,7 @@ contract P2P1 is ERC20, ReentrancyGuard, Ownable {
                 dataLocation: DataLocation.ONCHAIN,
                 revoked: false,
                 recipients: recipients,
-                data: "" // SignScan assumes this is from `abi.encode(...)`
+                data: data
             });
             uint64 attestationId = spInstance.attest(a, "", "", "");
             emit AssetReleased(order.seller, order.buyer, attestationId);
@@ -131,7 +142,7 @@ contract P2P1 is ERC20, ReentrancyGuard, Ownable {
         uint256 _accountNumber,
         string memory _bank,
         bool isSellOrder
-    ) internal onlyOwner {
+    ) internal {
         Order memory newOrder = Order({
             id: isSellOrder ? sellOrders.length : buyOrders.length,
             amount: _amount,
