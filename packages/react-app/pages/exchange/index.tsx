@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
 import MyOrders from './myOrders';
+import TransactionList from '@/components/TransactionList';
 
 
 export interface Order {
@@ -111,7 +112,7 @@ const Main: React.FC = () => {
     }, []);
 
     const handleAddOrder = () => {
-        router.push('/addOrder');
+        router.push('/exchange/addOrder');
     };
 
  
@@ -123,7 +124,7 @@ const Main: React.FC = () => {
 
     return (
         <div className="bg-prosperity max-w-screen-xl mx-auto px-4 md:px-8">
-            <div className="">
+        <main className="w-full lg:w-2/3 p-4">
                 <div className="max-w-lg">
                     <div className="flex justify-end">
                         <PlusCircleIcon
@@ -176,7 +177,11 @@ const Main: React.FC = () => {
                     ))}
                 </div>
 
-            </div>
+            </main>
+            <aside className="w-full lg:w-1/3 p-4 border rounded-md">
+          <TransactionList />
+
+        </aside>
         </div>
     );
 };

@@ -133,10 +133,10 @@ const TransactionList: React.FC = () => {
         >
           ...recent transactions
         </button>
-        <div className="bg-gypsum shadow-md rounded-lg p-4">
+        <div className="bg-gray-200 shadow-md rounded-lg p-4">
           {transactions && transactions.length > 0 ? (
             transactions.map((transaction, index) => (
-              <div key={transaction.key} className={`flex flex-row gap-2 items-center justify-between p-4 mb-2 rounded-lg ${index % 2 === 0 ? 'bg-gypsum' : 'bg-gypsum'}`}>
+              <div key={transaction.key} className={`flex flex-row gap-2 items-center justify-between p-4 mb-2 rounded-lg ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}>
                 <div className="flex items-center gap-2">
                   {transaction.args.from !== address ? (
                     <MinusCircleIcon className="h-5 w-5 text-red-500" />
@@ -167,7 +167,7 @@ const TransactionList: React.FC = () => {
               </div>
             ))
           ) : (
-            <div className="text-sm text-gray-400">Loading...</div>
+            <div className="text-sm text-gray-200">Loading...</div>
           )}
           <button
             className="text-sm text-gray-400 mt-4"

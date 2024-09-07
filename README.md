@@ -1,25 +1,25 @@
-## ESUSU
+## CeloP2P
 
-## THIS HACKATHON
+### Overview
 
-- We implemented a referral feature to reward users who tell their friends about our solutions
+CeloP2P is a decentralized application (DApp) built on the Celo mainnet/testnet to facilitate peer to peer trading between web3 users in a trustless manner. 
+
+Transactions are carried out between users and then the `attester` who is currently contract owner then verifies the authenticity and behaviour of both parties before approving the transfer of tokens/coins from the `seller` to the `buyer`. This attestation is stored publicly onchain.
+
+The need to build this is paramount following the suspension of Africa's biggets P2P platform-Binance in Nigeria and this has handicapped lots of web3 users. 
+
+- We implemented a referral feature to reward users who tell their friends about our solutions to boost community engagement.
 - This creates an `upliner` and `downliner` relationship
 - When a `downliner` makes a deposit,
-  - `downliner` earns `2 MST` reward points
-  - `upliner` earns `1 MST` reward point as referral reward
+  - `downliner` earns `2 CPT` reward points
+  - `upliner` earns `1 CPT` reward point as referral reward
+To streamline this, we implemented Social Connect protocol to abstract away the complexities of getting to memorize walleet addresses. With Social Connect wallet addresses are mapped to social identifiers such as phone numbers, google, facebook, github, twitter profiles etc. in this iterartion, we impplmented GitHub usernames.
 
-![Esusu referral](https://github.com/user-attachments/assets/c0764eac-6684-431b-80fa-55a8cbc21ced)
 
-### Summary of Milestone
+CeloP2P is built to function primarily on mobile devices vis Opera-mini's Minipay which currently has over 2 million daily users. Research has shown that >80% of internet users are on mobile devices hence the need to build applications that functions seemlessly on mobile devices.
 
-1. Redefining the reward structure
-2. Improving UI/UX
-3. Rewriting smart contracts
-4. Deploying in foundry as well as verification
-5. Writing test for the smart contract
-6. Adding user referral reward features
-7. Implementing social connect login for Twitter and GitHub
-8. Our `reward points` is an innovative approach to `gamification` where we are leveraging `ERC20` token standard to manage point allocation to increase transparency.
+![CeloP2P referral](https://github.com/user-attachments/assets/c0764eac-6684-431b-80fa-55a8cbc21ced)
+
 
 ### TO DO
 
@@ -29,15 +29,6 @@
 4. Writing test for the other contracts
 5. Consider a different a smart contract to handle the referral system across all 3 contracts
 
-### Overview
-
-ESUSU is a decentralized application (DApp) built on the Celo Mainnet  that facilitates stablecoin contributions through a collective savings model known as Esusu in many African communities. The DApp allows users to create and join campaigns, contribute funds, and track campaign details transparently on the blockchain.
-
-The dApp is a 3 in 1 solution to solving issues related to financial inclusion and poor savings trend. the sectios are
-
-- Esusu thrift contribution => % users joibn a contribution campaign where they pool their funds evrymonth for 5 months . For every month a unique user takes home the total contribution giving everyone access to `bulk money` which naturally the couldnt have saved up. This also elemintaes the need to borrow money for fundung big projects.
-- Esusu piggy box => Funds are locked up over time so that users no longer have access to them. They earn `MST` reward points for locking up funds but loss these reward points if the decide to break the lock.
-- Esusu pay bills => users can pay for their utility and also make donations to their various projects.
 
 ### Technologies Used
 
@@ -46,14 +37,14 @@ The dApp is a 3 in 1 solution to solving issues related to financial inclusion a
 - **Smart Contracts**: Foundry
 - **Deployment**: Alfajores(present deployment for the hackathon as well as demo video)
 - **Contract Address**: Alfajores 0xdFa504C66e22A07f42C5616c873829cBCcee38cd Mainnet 0x7A7347FC748f12160CFB9F89f6faC2376c0495A9
-- **Reward Points**: `MST` MiniSafe reward point as reward for locking up funds for both depositor and the upliner who referred.
+- **Reward Points**: `CPT` MiniSafe reward point as reward for locking up funds for both depositor and the upliner who referred.
 
 ### Setup Instructions
 
 1. Clone the repository:
 
    ```
-   git clone https://github.com/emiridbest/esusu2.git
+   git clone https://github.com/emiridbest/CeloP2P2.git
    ```
 
 2. Install dependencies:
@@ -74,9 +65,9 @@ The dApp is a 3 in 1 solution to solving issues related to financial inclusion a
 
 - Create an account or connect your Celo Minipay wallet.
 - Go to the `site tester` in minipay
-- Enter `http://esusu-two.vercel.app`
+- Enter `http://CeloP2P-two.vercel.app`
 
-- **Esusu Referrers**
+- **CeloP2P Referrers**
 
 1. Connect your social account(GitHub fully implemented)
 2. Add `upliner` by entering the `GitHub` username of the user who referred you
@@ -97,7 +88,7 @@ The dApp is a 3 in 1 solution to solving issues related to financial inclusion a
     /public includes static files
     /utils
         abi.ts hold smart contract's `ABI and `Address` of the `timelock` and `referral` features logic
-        esusu.ts hold `ABI and `Address` of the `thrift` feature logic
+        CeloP2P.ts hold `ABI and `Address` of the `thrift` feature logic
         pay.ts hold `ABI and `Address` of the `utilityBills` payment feature logic
 
 ### Contributing

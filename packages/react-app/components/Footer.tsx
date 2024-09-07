@@ -7,7 +7,7 @@ type Props = {
 export default function Footer() {
   const router = useRouter();
   return (
-    <footer className="sm:hidden bg-gypsum fixed bottom-0 w-full border-t border-black">
+    <footer className="sm:hidden bg-prosperity fixed bottom-0 w-full border-t border-black">
       <div className="flex justify-around py-3">
         <div className="text-xs item-center"> <HomeIcon
           onClick={() => router.push('/')}
@@ -21,10 +21,10 @@ export default function Footer() {
           <p> Save</p>
         </div>
         <div className="text-xs item-center">     <UserGroupIcon
-          onClick={() => router.push('/thrift')}
+          onClick={() => router.push('/exchange')}
 
           className="m-auto h-6 w-6 cursor-pointer" />
-          <p> Thrift</p>
+          <p> P2p</p>
         </div>
         <div className="text-xs item-center">     <UserIcon
           onClick={() => router.push('/socialConnect')}

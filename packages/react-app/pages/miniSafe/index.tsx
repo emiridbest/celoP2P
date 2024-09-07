@@ -261,7 +261,7 @@ export default function Home() {
       <ToastContainer />
       <div className="flex flex-col lg:flex-row text-sm ">
         <aside className="w-full lg:w-1/3 p-4">
-          <div className="bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+          <div className="bg-gradient-to-br from-prosperity to-prosperity bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
             <div className="p-6">
               <h3 className="font-semibold text-black mb-4 text-lg">My Savings</h3>
               <div className="mb-4">
@@ -274,8 +274,8 @@ export default function Home() {
                   <span className="text-black text-2xl font-bold">{cusdBalance} cUSD</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600"><CurrencyPoundIcon className="mr-2 text-black" />EST:</span>
-                  <span className="text-black text-2xl font-bold">{tokenBalance} EST</span>
+                  <span className="text-gray-600"><CurrencyPoundIcon className="mr-2 text-black" />CPT:</span>
+                  <span className="text-black text-2xl font-bold">{tokenBalance} CPT</span>
                 </div>
               </div>
               <div>
@@ -294,14 +294,14 @@ export default function Home() {
           </div>
         </aside>
         <main className="w-full lg:w-2/3 p-4">
-          <div className="bg-gypsum p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
-            <div className="bg-gypsum p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+          <div className="bg-prosperity p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-prosperity to-prosperity bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+            <div className="bg-prosperity p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-prosperity to-prosperity bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
               <h3 className="text-sm font-semibold text-black mb-2">Deposit</h3>
               <form
                 className="mb-4">
                 <div className="mb-4">
-                  <label className="text-sm font-light text-gray-500 mb-2" htmlFor="deposit-amount">Amount</label>
-                  <label className="flex text-xs font-light text-gray-500 mb-2" htmlFor="deposit-amount">Approve amount before depositing...</label>
+                  <label className="text-sm font-light text-prosperity0 mb-2" htmlFor="deposit-amount">Amount</label>
+                  <label className="flex text-xs font-light text-prosperity0 mb-2" htmlFor="deposit-amount">Approve amount before depositing...</label>
                   <input
                     type="number"
                     step="0.01"
@@ -314,7 +314,7 @@ export default function Home() {
                   disabled={isApproved}
                   onClick={(e) => approveSpend(e)}
                   className={`${!isApproved
-                    ? "text-black/100 bg-prosperity hover:bg-black hover:text-white"
+                    ? "text-prosperity bg-black hover:bg-black hover:text-white"
                     : "bg-black/10 cursor-not-allowed text-white"
                     } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
                   {isApproving ? <Loader alt /> : "Approve"}
@@ -323,7 +323,7 @@ export default function Home() {
                   disabled={!isApproved}
                   onClick={(e) => handleDeposit(e, selectedToken, depositAmount)}
                   className={`${isApproved
-                    ? "text-black/100 bg-prosperity hover:bg-black hover:text-white"
+                    ? "text-prosperity bg-black hover:bg-black hover:text-white"
                     : "bg-black/10 cursor-not-allowed text-white hover:bg-black e"
                     } inline-flex w-full items-center justify-center rounded-md p-2`}
                 >
@@ -331,23 +331,23 @@ export default function Home() {
                 </button>
               </form>
             </div>
-            <div className="bg-gypsum p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+            <div className="bg-prosperity p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-prosperity to-prosperity bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
               <h3 className="text-sm font-semibold text-black mb-2">Withdraw</h3>
                 <button
                   type="submit"
                   onClick={handleWithdraw}
-                  className="w-full bg-prosperity shadow text-black py-2 rounded-md hover:bg-black hover:text-white transition"
+                  className="w-full bg-black shadow text-prosperity py-2 rounded-md hover:bg-black hover:text-white transition"
                 >
                   Withdraw
                 </button>
             </div>
-            <div className="bg-gypsum p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+            <div className="bg-black p-6 rounded-lg shadow-md mb-4 bg-gradient-to-br from-prosperity to-prosperity bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
               <h3 className="text-sm font-semibold text-black mb-2">Break Timelock</h3>
-              <h3 className="text-sm font-light text-gray-500 mb-2">Ensure you have enough EST tokens</h3>
+              <h3 className="text-sm font-light text-black mb-2">Ensure you have enough EST tokens</h3>
 
               <button
                 onClick={handleBreakLock}
-                className="w-full bg-prosperity shadow text-black py-2 rounded-md hover:bg-black hover:text-white transition"
+                className="w-full bg-black shadow text-prosperity py-2 rounded-md hover:bg-black hover:text-white transition"
               >
                 Breaklock
               </button>

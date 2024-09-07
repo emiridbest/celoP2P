@@ -107,7 +107,7 @@ export default function Home() {
       <ToastContainer />
       {account ?  <div className="flex flex-col lg:flex-row text-sm">
         <main className="w-full lg:w-2/3 p-4">
-       <div className="bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+       <div className="bg-gradient-to-br from-prosperity to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
             <div className="p-6">
             <SocialProfile />
               <h3 className="font-semibold text-black mb-4 text-lg">My Savings</h3>
@@ -115,9 +115,9 @@ export default function Home() {
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">
                     <CurrencyPoundIcon className="mr-2 text-black" />
-                    EST:
+                    CPT:
                   </span>
-                  <span className="text-black text-2xl font-bold">{tokenIncentive} EST</span>
+                  <span className="text-black text-2xl font-bold">{tokenIncentive} CPT</span>
                 </div>
               </div>
               <div>
@@ -126,7 +126,7 @@ export default function Home() {
           </div>
         </main>
         <aside className="w-full lg:w-1/3 p-4 border rounded-md">
-          <div className="bg-gradient-to-br from-gypsum to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
+          <div className="bg-gradient-to-br from-prosperity to-gray-50 bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-lg shadow-lg">
             <h3 className="text-sm   m-4 text-black mb-2">Actions</h3>
             <div className="p-6 space-y-4">
               <div>
@@ -168,7 +168,7 @@ export default function Home() {
                   Token Incentive Balance
                 </div>
                 <div className="mt-2 border p-2">
-                  EST: {tokenIncentive}
+                  CPT: {tokenIncentive}
                 </div>
               </div>
             </div>

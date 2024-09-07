@@ -13,9 +13,9 @@ const Hero: React.FC = () => {
                             <div className="flex flex-col lg:flex-row  justify-between items-center">
                                 <div className="lg:w-1/2 p-4">
                                     <header>
-                                        <h3 className="text-5xl font-bold">Harness the power of community savings.</h3>
+                                        <h3 className="text-5xl font-bold">Harness the power of peer to peer trading and  community savings.</h3>
                                     </header>
-                                    <p className="mt-4 text-base">Vomia is built for mobile, making peer to peer transactions and saving easier.</p>
+                                    <p className="mt-4 text-base">CeloP2P is built for mobile, making peer to peer transactions and saving easier.</p>
                                 </div>
                                 <div className="lg:w-1/2 p-4 flex justify-center lg:justify-end">
                                     <picture className="block">
@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
                             <h3 className="text-xl font-semibold mt-4">
                                 <div>Set a Target.</div>
                             </h3>
-                            <div className="text-base">Vomia is built for you, exchanging cryppto easy.</div>
+                            <div className="text-base">CeloP2P is built for you, exchanging cryppto easy.</div>
                         </div>
 
                         <div className="w-full sm:w-1/2 lg:w-1/4 p-4">
@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
                                     <header>
                                         <h3 className="text-5xl font-bold">Mobile optimized. Built for you.</h3>
                                     </header>
-                                    <p className="mt-4 text-base">Vomia is built for mobile, making crypto easy. Swap tokens in a tap. Send crypto like a text.</p>
+                                    <p className="mt-4 text-base">CeloP2P is built for mobile, making crypto easy. Swap tokens in a tap. Send crypto like a text.</p>
                                 </div>
                                 <div className="lg:w-1/2 p-4 flex justify-center lg:justify-end">
                                     <Image
@@ -103,7 +103,7 @@ const Hero: React.FC = () => {
                                 <header>
                                     <h3 className="text-5xl font-bold">Communities to build wealth.</h3>
                                 </header>
-                                <p className="mt-4 text-base">Vomia streamlines and secures crypto trading.</p>
+                                <p className="mt-4 text-base">CeloP2P streamlines and secures crypto trading.</p>
                             </div>
                             <div className="lg:w-1/2 p-4 flex justify-center lg:justify-end">
                                 <Image
@@ -125,7 +125,7 @@ const Hero: React.FC = () => {
                                     <header>
                                         <h3 className="text-5xl font-bold">Save and Earn.</h3>
                                     </header>
-                                    <p className="mt-4 text-base">Deposit your stable coins into a time-locked vault and earn Vomia Tokens as rewards.</p>
+                                    <p className="mt-4 text-base">Deposit your stable coins into a time-locked vault and earn CeloP2P Tokens as rewards.</p>
                                 </div>
                                 <div className="lg:w-1/2 p-4 flex justify-center lg:justify-end h-auto w- overlay-gypsum">
                                     <Image
@@ -145,7 +145,7 @@ const Hero: React.FC = () => {
                                 <header>
                                     <h3 className="text-5xl font-bold">Say no to debts.</h3>
                                 </header>
-                                <p className="mt-4 text-base">Vomia brings prosperity to all, enriching lives.</p>
+                                <p className="mt-4 text-base">CeloP2P brings prosperity to all, enriching lives.</p>
                             </div>
                             <div className="lg:w-1/2 p-4 flex justify-center lg:justify-end">
                                 <Image

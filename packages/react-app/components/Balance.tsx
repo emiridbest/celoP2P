@@ -2,14 +2,40 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { EyeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import { getContract, formatEther, createPublicClient, http } from "viem";
 import { celo, celoAlfajores } from "viem/chains";
-import { BrowserProvider} from 'ethers';
+import { BrowserProvider, Contract, formatUnits} from 'ethers';
 import { stableTokenABI } from "@celo/abis";
+import { contractAddress, abi } from '../utils/abi';
+
 const STABLE_TOKEN_ADDRESS = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
 
 const Balance: React.FC = () => {
     const [cUSDBalance, setCUSDBalance] = useState<string>('0');
     const [showBalanceDetails, setShowBalanceDetails] = useState<boolean>(true);
+    const [tokenBalance, setTokenBalance] = useState('');
 
+    const getTokenBalance = useCallback(async () => {
+        if (window.ethereum) {
+          try {
+            let accounts = await window.ethereum.request({
+              method: "eth_requestAccounts",
+            });
+            let userAddress = accounts[0];
+    
+            const provider = new BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner(userAddress);
+            const contract = new Contract(contractAddress, abi, signer);
+    
+            const tokenBalance = await contract.balanceOf(userAddress);
+            if (tokenBalance !== undefined) {
+              const tokenBalanceBigInt = formatUnits(tokenBalance, 0);
+              setTokenBalance(tokenBalanceBigInt.toString());
+            }
+          } catch (error) {
+            console.error("Error fetching token balance:", error);
+          }
+        }
+      }, []);
+    
     const getCUSDBalance = useCallback(async () => {
         if (window.ethereum) {
             try {
@@ -40,6 +66,7 @@ const Balance: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        getTokenBalance();
         getCUSDBalance();
     }, [getCUSDBalance]);
 
@@ -57,7 +84,7 @@ const Balance: React.FC = () => {
 
 
     return (
-            <div className="sm:hidden my-4 p-4 bg-gypsum shadow rounded-lg">
+            <div className="sm:hidden my-4 p-4 bg-prosperity shadow rounded-lg">
                 <div className="flex justify-between items-center">
                     <button
                         onClick={toggleBalanceDetails}
@@ -69,7 +96,8 @@ const Balance: React.FC = () => {
                 </div>
                 {showBalanceDetails && (
                     <div className="mt-2 text-black text-4xl font-bold text-overflow-hidden">
-                        {formatBalance(cUSDBalance)}cUSD
+                        {formatBalance(cUSDBalance)}cUSD <br/>
+                        {tokenBalance}CPT
                     </div>
                 )}
                 <p className="text-sm">Your wallet balance</p>

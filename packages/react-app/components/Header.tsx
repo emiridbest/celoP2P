@@ -48,7 +48,7 @@ export default function Header() {
     }, [isOpen]);
 
     return (
-        <Disclosure as="nav" className="bg-gypsum border-b border-black">
+        <Disclosure as="nav" className="bg-prosperity border-b border-black">
             {({ open }) => (
                 <>
                     <SocialConnectUI
@@ -73,7 +73,7 @@ export default function Header() {
                                 {searchVisible ? (
                                     <div className="relative">
                                         <input
-                                            className="border-2 border-black bg-gypsum text-black h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                                            className="border-2 border-black bg-prosperity text-black h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                                             type="search"
                                             name="search"
                                             placeholder="Search for orders here"
@@ -84,7 +84,7 @@ export default function Header() {
                                             type="submit"
                                             className="absolute right-0 top-0 mt-2 mr-2"
                                         >
-                                            <MagnifyingGlassIcon className="h-6 text-black text-gypsum transition" />
+                                            <MagnifyingGlassIcon className="h-6 text-black text-prosperity transition" />
                                         </button>
                                     </div>
                                 ) : (
@@ -100,42 +100,42 @@ export default function Header() {
                                 <BellAlertIcon className="h-6 text-black" />
                             </div>
 
-                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-prosperity px-3 py-2 rounded-md">
+                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperity px-3 py-2 rounded-md">
                                 <Link
                                     onClick={() => router.push('/miniSafe')}
-                                    className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small text-gray-900"
+                                    className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small hover:bg-black hover:text-prosperity text-gray-900"
                                     href={""}
                                 >
-                                    Simple Saver
+                                    Vault
                                 </Link>
                             </div>
 
-                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-prosperity px-3 py-2 rounded-md">
+                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperity px-3 py-2 rounded-md">
                                 <Link
                                     onClick={() => router.push('/exchange')}
-                                    className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small text-gray-900"
+                                    className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small hover:bg-black hover:text-prosperity text-gray-900"
                                     href={""}
                                 >
                                     Exchange
                                 </Link>
                             </div>
 
-                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-prosperity px-3 py-2 rounded-md">
+                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperity px-3 py-2 rounded-md">
                                 <Link
-                                    onClick={() => router.push('/utilityBills')}
-                                    className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small text-gray-900"
+                                    onClick={() => router.push('/admin')}
+                                    className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small hover:bg-black hover:text-prosperity text-gray-900"
                                     href={""}
                                 >
-                                    Pay Bills
+                                   Admin Panel
                                 </Link>
                             </div>
 
 
-                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-prosperity px-3 py-2 rounded-md">
+                            <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperity px-3 py-2 rounded-md">
                                 <div>
                                     <button
                                         type="button"
-                                        className="inline-flex justify-center w-full mx-2 px-3 py-2 bg-gypsum text-sm  text-black hover:bg-prosperity focus:outline-none"
+                                        className="inline-flex justify-center w-full mx-2 px-3 py-2 bg-prosperity text-sm  text-black hover:bg-black hover:text-prosperity focus:outline-none"
                                         onClick={() => setIsOpen(!isOpen)}                                    >
                                         About Us
                                         <svg
@@ -151,32 +151,32 @@ export default function Header() {
                                 </div>
 
                                 {isOpen && (
-                                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gypsum cursor-pointer  ring-1 ring-black ring-opacity-5">
+                                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-prosperity cursor-pointer  ring-1 ring-black ring-opacity-5">
                                         <div className="py-1">
                                             <p onClick={() => router.push('/faq')}
-                                                className="block px-4 py-2 text-sm text-black hover:bg-prosperity">FAQ
+                                                className="block px-4 py-2 text-sm text-black hover:bg-black hover:text-prosperity">FAQ
                                             </p>
                                             <p onClick={() => router.push('/testimonials')}
-                                                className="block px-4 py-2 text-sm text-black hover:bg-prosperity">Testimonials
+                                                className="block px-4 py-2 text-sm text-black hover:bg-black hover:text-prosperity">Testimonials
                                             </p>
                                             <p onClick={() => router.push('/contact')}
-                                                className="block px-4 py-2 text-sm text-black hover:bg-prosperity">Contact
+                                                className="block px-4 py-2 text-sm text-black hover:bg-black hover:text-prosperity">Contact
                                             </p>
 
-                                            <p onClick={() => router.push('/invest')} className="block px-4 py-2 text-sm text-black hover:bg-prosperity">Invest
+                                            <p onClick={() => router.push('/invest')} className="block px-4 py-2 text-sm text-black hover:bg-black hover:text-prosperity">Invest
                                             </p>
                                             <p onClick={() => router.push('/jobs')}
-                                                className="block px-4 py-2 text-sm text-black hover:bg-prosperity">Jobs
+                                                className="block px-4 py-2 text-sm text-black hover:bg-black hover:text-prosperity">Jobs
                                             </p>
                                             <p onClick={() => router.push('/blogs')}
-                                                className="block px-4 py-2 text-sm text-black hover:bg-prosperity">Blog
+                                                className="block px-4 py-2 text-sm text-black hover:bg-black hover:text-prosperity">Blog
                                             </p>
                                         </div>
                                     </div>
                                 )}
                             </div>
                             {connected && account && (
-                                <div className="sm:ml-6 sm:flex sm:space-x-2 hover:bg-prosperity px-3 py-2 rounded-md">
+                                <div className="sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperitypx-3 py-2 rounded-md">
                                     <button
                                         type="button"
                                         onClick={() => setSocialIsOpen(true)}

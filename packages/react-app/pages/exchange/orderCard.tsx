@@ -20,7 +20,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, isSellOrder }) => {
     const router = useRouter();
 
     const handleViewDetails = (id: number, isSellOrder: boolean) => {
-        router.push(`/orderDetails?id=${id}&isSellOrder=${isSellOrder}`);
+        router.push(`/exchange/orderDetails?id=${id}&isSellOrder=${isSellOrder}`);
     };
 
     return (

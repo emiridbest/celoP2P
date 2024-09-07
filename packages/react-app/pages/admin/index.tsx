@@ -4,7 +4,6 @@ import { contractAddress, abi } from '@/utils/p2pAbi';
 import { BrowserProvider, Contract, ZeroAddress, ethers } from 'ethers';
 import OrderCard from '../exchange/orderCard';
 import { useRouter } from 'next/router';
-import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
 
 
@@ -65,11 +64,6 @@ const Main: React.FC = () => {
         }
     }, []);
 
-    const handleAddOrder = () => {
-        router.push('/addOrder');
-    };
-
- 
     useEffect(() => {
         getOrders();
     }, [getOrders]);
@@ -79,12 +73,7 @@ const Main: React.FC = () => {
         <div className="bg-prosperity max-w-screen-xl mx-auto px-4 md:px-8">
             <div className="">
                 <div className="max-w-lg">
-                    <div className="flex justify-end">
-                        <PlusCircleIcon
-                            onClick={handleAddOrder}
-                            className="h-8 mb-4 text-prosperity bg-black hover:bg-blue-700 duration-150 rounded-full cursor-pointer"
-                        />
-                    </div>
+  
                     <p className="text-black mt-2 text-1xl">
                         Welcome to your No. 1 P2P trading gateway!!!
                     </p>
