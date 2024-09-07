@@ -18,7 +18,6 @@ To streamline this, we implemented Social Connect protocol to abstract away the 
 
 CeloP2P is built to function primarily on mobile devices vis Opera-mini's Minipay which currently has over 2 million daily users. Research has shown that >80% of internet users are on mobile devices hence the need to build applications that functions seemlessly on mobile devices.
 
-![CeloP2P referral](https://github.com/user-attachments/assets/c0764eac-6684-431b-80fa-55a8cbc21ced)
 
 
 ### TO DO
@@ -36,8 +35,8 @@ CeloP2P is built to function primarily on mobile devices vis Opera-mini's Minipa
 - **Backend**: Solidity, Ethereum blockchain
 - **Smart Contracts**: Foundry
 - **Deployment**: Alfajores(present deployment for the hackathon as well as demo video)
-- **Contract Address**: Alfajores 0xdFa504C66e22A07f42C5616c873829cBCcee38cd Mainnet 0x7A7347FC748f12160CFB9F89f6faC2376c0495A9
-- **Reward Points**: `CPT` MiniSafe reward point as reward for locking up funds for both depositor and the upliner who referred.
+- **Contract Address**: Alfajores 0x04B3E5a904B4d9659729ECcc9137d585647a58a1 Mainnet
+- **Reward Points**: `CPT` CeloP2P reward point as reward for locking up funds for both depositor and the upliner who referred.
 
 ### Setup Instructions
 
@@ -105,15 +104,3 @@ Contributions are welcome! Please follow the standard GitHub flow:
 ### License
 
 This project is licensed under the [MIT License](LICENSE).
-![1](https://github.com/user-attachments/assets/2dc7eed1-3398-4a4a-b007-a6a2198b7a83)
-![2](https://github.com/user-attachments/assets/ad2966b3-3842-44b2-a959-e48bafa6210a)
-![3](https://github.com/user-attachments/assets/5b70644d-d1ce-478b-94ee-1ddf543800dc)
-![4](https://github.com/user-attachments/assets/a808c5c1-5011-4159-b8c6-f6b4a3ad7eea)
-![5](https://github.com/user-attachments/assets/6d3cbf55-dc8d-4189-9bfb-7c81b88c771d)
-![6](https://github.com/user-attachments/assets/cd456173-7592-4508-b58e-6f8944934180)
-![7](https://github.com/user-attachments/assets/3d96fb18-fc32-4d0b-8c72-aacba244e3e0)
-![8](https://github.com/user-attachments/assets/35f05bbd-50a8-43f5-9b39-d27ce4aa3bac)
-![9](https://github.com/user-attachments/assets/f7492885-67bb-4a2b-a6f4-a0f4cf80347b)
-![10](https://github.com/user-attachments/assets/a94ed227-ed71-4191-9161-3fe6dcdcc26e)
-![12](https://github.com/user-attachments/assets/695724cf-c259-4d70-95ce-528245f101ad)
-![13](https://github.com/user-attachments/assets/ce7e9cbf-bacb-4a29-bc8e-fcdbe6e46b82)
