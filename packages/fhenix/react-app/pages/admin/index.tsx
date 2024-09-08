@@ -31,10 +31,10 @@ const Main: React.FC = () => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
+                const client = new FhenixClient({provider});
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
-
                 const sellOrderIds = await contract.getAllCompleteSellOrders();
                 const buyOrderIds = await contract.getAllCompleteBuyOrders();
 
@@ -42,7 +42,8 @@ const Main: React.FC = () => {
                 for (const sellOrderIdBN of sellOrderIds) {
                     const id = parseInt(sellOrderIdBN + 1);
                     const details = await contract.sellOrder(id);
-                    formattedSellOrders.push({ ...details, key: id });
+                    const cleartext = client.unseal(contractAddress, { ...details, key: id });
+                    formattedSellOrders.push(cleartext);
                 }
 
 
@@ -50,8 +51,8 @@ const Main: React.FC = () => {
                 for (const buyOrderIdBN of buyOrderIds) {
                     const id = parseInt(buyOrderIdBN + 1);
                     const details = await contract.buyOrder(id);
-                    formattedBuyOrders.push({ ...details, key: id });
-                    console.log(formattedBuyOrders);
+                    const cleartext = client.unseal(contractAddress, { ...details, key: id });
+                    formattedSellOrders.push(cleartext);
                 }
 
                 setSellOrders(formattedSellOrders);

@@ -37,19 +37,18 @@ const OrderDetailsPage: React.FC = () => {
             if (window.ethereum) {
                 try {
                 
-                    const provider = new JsonRpcProvider('https://api.helium.fhenix.zone');
+                    const provider = new BrowserProvider(window.ethereum);
                     const client = new FhenixClient({provider});
-                    let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
                     const signer = await provider.getSigner();
                     const contract = new Contract(contractAddress, abi, signer);
-                    const cleartext = client.unseal(contractAddress, sealed);
                     const address = await signer.getAddress();
     
                     const details = isSellOrder === 'true'
                         ? await contract.sellOrders(id)
                         : await contract.buyOrders(id);
+                        const cleartext = client.unseal(contractAddress, { id: id, ...details });
 
-                    setOrder({ id: id, ...details });
+                    setOrder(cleartext);
                 } catch (error) {
                     console.error('Error fetching order details:', error);
                 }
@@ -84,10 +83,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const approveSpend = async () => {
         if (window.ethereum) {
             try {
-                let accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-                let userAddress = accounts[0];
                 const provider = new BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner(userAddress);
+                const client = new FhenixClient({provider});
+                let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
+                const signer = await provider.getSigner();
+                const contract = new Contract(contractAddress, abi, signer);
+                const address = await signer.getAddress();
+
                 const gasLimit = parseInt("600000");
 
                 const tokenAbi = [

@@ -24,59 +24,23 @@ const AddOrder: React.FC = () => {
     const router = useRouter();
     const [isApproved, setIsApproved] = useState(false);
     const [buttonText, setButtonText] = useState('Approve');
-    const cUsdTokenAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1" //"0x765DE816845861e75A25fCA122bb6898B8B1282a";
-    const approveSpend = async () => {
-        if (window.ethereum) {
-            try {
-                let accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-                  
-                const provider = new JsonRpcProvider('https://api.helium.fhenix.zone');
-                const client = new FhenixClient({provider});
-                let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
-                const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
-                const cleartext = client.unseal(contractAddress, sealed);
-                const address = await signer.getAddress();
 
-                const gasLimit = parseInt("600000");
-
-                const tokenAbi = [
-                    "function allowance(address owner, address spender) view returns (uint256)",
-                    "function approve(address spender, uint256 amount) returns (bool)"
-                ];
-                const tokenContract = new Contract(cUsdTokenAddress, tokenAbi, signer);
-
-                let tx = await tokenContract.approve(contractAddress, parseEther("1"), { gasLimit });
-                setButtonText('Approving...');
-                await tx.wait();
-                setIsApproved(true);
-                toast.success('Approval successful!');
-
-            } catch (error) {
-                console.error("Error approving spend:", error);
-                setIsApproved(false);
-                toast.error('Approval failed!');
-            }
-        } else {
-            toast.error('Ethereum object not found');
-        }
-
-    }
     const handleAddSellOrder = async (amount: number, price: number, bank: string, accountNumber: string, fiatCurrency: FiatCurrency) => {
         if (window.ethereum) {
             try {
                       
                 const provider = new JsonRpcProvider('https://api.helium.fhenix.zone');
                 const client = new FhenixClient({provider});
-                let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
+                let encrypted = await client.encrypt(amount, EncryptionTypes.uint);
+                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint);
+                let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint);
+                let encryptedBank = await client.encrypt(amount, EncryptionTypes.bytes);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-                const cleartext = client.unseal(contractAddress, sealed);
                 const address = await signer.getAddress();
 
                 const gasLimit = parseInt("600000");
-                await approveSpend();
-                const tx = await contract.addSellOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank, {gasLimit});
+                const tx = await contract.addSellOrder(encrypted, encryptedPrice, fiatCurrency, encryptedAccountNumber, encryptedBank, {gasLimit});
                 await tx.wait();
                 router.push('/exchange');
             } catch (error) {
@@ -91,13 +55,16 @@ const AddOrder: React.FC = () => {
                 
                 const provider = new JsonRpcProvider('https://api.helium.fhenix.zone');
                 const client = new FhenixClient({provider});
-                let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
+                let encrypted = await client.encrypt(amount, EncryptionTypes.uint);
+                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint);
+                let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint);
+                let encryptedBank = await client.encrypt(amount, EncryptionTypes.bytes);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-                const cleartext = client.unseal(contractAddress, sealed);
                 const address = await signer.getAddress();
+
                 const gasLimit = parseInt("600000");
-                const tx = await contract.addBuyOrder(amount, price, fiatCurrency, BigInt(accountNumber), bank, {gasLimit});
+                const tx = await contract.addBuyOrder(encrypted, encryptedPrice, fiatCurrency, encryptedAccountNumber, encryptedBank, {gasLimit});
                 await tx.wait();
                 router.push('/exchange');
             } catch (error) {

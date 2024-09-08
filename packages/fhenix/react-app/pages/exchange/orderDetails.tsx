@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { BrowserProvider, Contract } from 'ethers';
+import { BrowserProvider, Contract, ethers } from 'ethers';
 import { contractAddress, abi } from '@/utils/p2pAbi';
 import { Order } from './index';
 import { ArrowLeftCircleIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
+import { FhenixClient } from 'fhenixjs';
+import { JsonRpcProvider } from 'ethers';
 
 enum FiatCurrency {
     NGN = 0, // Nigerian Naira
@@ -18,11 +20,11 @@ interface OrderDetailsProps {
     isSellOrder: boolean;
 }
 const getStatusText = (status: any) => {
- return  status ?  <CheckIcon className='h-4 text-green-500'/> : <XMarkIcon className='h-4 text-red-600'/>;
+    return status ? <CheckIcon className='h-4 text-green-500' /> : <XMarkIcon className='h-4 text-red-600' />;
 };
 
 const getPaymentStatusText = (paid: any) => {
-    return paid ? <CheckIcon className='h-4 text-green-500'/> : <XMarkIcon className='h-4 text-red-600'/>;
+    return paid ? <CheckIcon className='h-4 text-green-500' /> : <XMarkIcon className='h-4 text-red-600' />;
 };
 const OrderDetailsPage: React.FC = () => {
     const router = useRouter();
@@ -33,15 +35,21 @@ const OrderDetailsPage: React.FC = () => {
         if (id && typeof id === 'string') {
             if (window.ethereum) {
                 try {
+
                     const provider = new BrowserProvider(window.ethereum);
+                    const client = new FhenixClient({ provider });
+                    let encrypted = await client.encrypt(id, EncryptionTypes.uint8);
                     const signer = await provider.getSigner();
-                    const contract = new Contract(contractAddress, abi, signer);
+                    // get contract
+                    const address = await signer.getAddress();
 
+                    // get contract
+                    const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
                     const details = isSellOrder === 'true'
-                        ? await contract.sellOrders(Number(id))
-                        : await contract.buyOrders(Number(id));
-
-                    setOrder({ id: Number(id), ...details });
+                        ? await contract.sellOrders(encrypted)
+                        : await contract.buyOrders(encrypted);
+                    const cleartext = client.unseal(contractAddress, { id: Number(id), ...details });
+                    setOrder(cleartext);
                 } catch (error) {
                     console.error('Error fetching order details:', error);
                 }
@@ -72,12 +80,14 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const completeOrder = async (id: number) => {
         if (window.ethereum) {
             try {
-                const provider = new BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
 
+                const provider = new BrowserProvider(window.ethereum);
+                const client = new FhenixClient({ provider });
+                const signer = await provider.getSigner();
+                const address = await signer.getAddress();
+                const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
                 const tx = isSellOrder
-                    ? await contract.updateSellOrderToPaid(id)
+                    ? await contract.updateSellOrderToPaid()
                     : await contract.updateBuyOrderToPaid(id);
 
                 await tx.wait();
@@ -92,9 +102,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
+                const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
+                const address = await signer.getAddress();
 
+                // get contract
+                const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
                 const tx = isSellOrder
                     ? await contract.updateSellOrderToActive(id)
                     : await contract.updateBuyOrderToActive(id);
@@ -130,7 +143,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
         const end = address.substring(address.length - endLength);
         return `${start}...${end}`;
     }
-    
+
     return (
         <div className="p-3">
             <div className="flex items-center gap-2">
@@ -141,8 +154,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
 
             </div>
             <div className="flex flex-col items-center text-lg font-bold">
-                    {isSellOrder ? 'Sell Order' : 'Buy Order'} #{order[0].toString()}
-                </div>
+                {isSellOrder ? 'Sell Order' : 'Buy Order'} #{order[0].toString()}
+            </div>
             <div className="flex flex-col md:flex-row mt-6 gap-6">
                 <div className="flex-1 bg-black p-4 rounded-lg shadow-md text-sm text-white">
                     <div className="flex flex-col gap-4">
@@ -154,11 +167,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                             <span>Price:</span>
                             <span>{order[2].toString()}</span>
                         </div>
-                        {isSellOrder &&  <div className="flex justify-between">
-                        <span>Account Number:</span>
+                        {isSellOrder && <div className="flex justify-between">
+                            <span>Account Number:</span>
                             <span>{order[3].toString()}</span>
                         </div>}
-                        {isSellOrder &&  <div className="flex justify-between">
+                        {isSellOrder && <div className="flex justify-between">
                             <span>Bank:</span>
                             <span>{order[4]}</span>
                         </div>}

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { contractAddress, abi } from '../../utils/abi';
-import { BrowserProvider, Contract, formatUnits } from "ethers";
+import { BrowserProvider, Contract, ethers, formatUnits, id } from "ethers";
 import { CurrencyDollarIcon, CurrencyEuroIcon, CurrencyPoundIcon } from "@heroicons/react/24/outline";
 import { BigNumber } from 'alchemy-sdk';
 import { parseEther } from "viem";
@@ -34,15 +34,15 @@ export default function Home() {
           method: "eth_requestAccounts",
         });
                 
-        const provider = new JsonRpcProvider('https://api.helium.fhenix.zone');
-        const client = new FhenixClient({provider});
-        let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
+        const provider = new BrowserProvider(window.ethereum);
+        const client = new FhenixClient({ provider });
+        let encrypted = await client.encrypt(id, EncryptionTypes.uint8);
         const signer = await provider.getSigner();
-        const cleartext = client.unseal(contractAddress, sealed);
+        // get contract
         const address = await signer.getAddress();
 
-        const contract = new Contract(contractAddress, abi, signer);
-
+        // get contract
+        const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
         const balanceStruct = await contract.balances(userAddress);
         if (balanceStruct && balanceStruct.fhenixBalance !== undefined) {
           const fhenixBalanceBigInt = formatUnits(balanceStruct.fhenixBalance, 18);
@@ -59,18 +59,20 @@ export default function Home() {
   const getTokenBalance = useCallback(async () => {
     if (window.ethereum) {
       try {
-        let accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        let userAddress = accounts[0];
-
         const provider = new BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner(userAddress);
-        const contract = new Contract(contractAddress, abi, signer);
+        const client = new FhenixClient({ provider });
+        let encrypted = await client.encrypt(id, EncryptionTypes.uint8);
+        const signer = await provider.getSigner();
+        // get contract
+        const address = await signer.getAddress();
 
-        const tokenBalance = await contract.balanceOf(userAddress);
+        // get contract
+        const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
+
+        const tokenBalance = await contract.balanceOf(address);
         if (tokenBalance !== undefined) {
           const tokenBalanceBigInt = formatUnits(tokenBalance, 0);
+          
           setTokenBalance(tokenBalanceBigInt.toString());
         }
       } catch (error) {
