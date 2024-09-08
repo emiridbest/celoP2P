@@ -5,7 +5,6 @@ import { useAccount } from 'wagmi';
 import { stableTokenABI } from "@celo/abis";
 import { CheckIcon, MinusCircleIcon, PlusCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit';
-import { BlockNumber } from "viem";
 
 interface Transaction {
   args: {
