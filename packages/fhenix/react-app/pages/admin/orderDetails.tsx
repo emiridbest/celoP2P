@@ -36,26 +36,25 @@ const OrderDetailsPage: React.FC = () => {
         if (id && typeof id === 'string') {
             if (window.ethereum) {
                 try {
-                
                     const provider = new BrowserProvider(window.ethereum);
-                    const client = new FhenixClient({provider});
+                    const client = new FhenixClient({ provider });
                     const signer = await provider.getSigner();
                     const contract = new Contract(contractAddress, abi, signer);
-                    const address = await signer.getAddress();
-    
                     const details = isSellOrder === 'true'
                         ? await contract.sellOrders(id)
                         : await contract.buyOrders(id);
-                        const cleartext = client.unseal(contractAddress, { id: id, ...details });
-
-                    setOrder(cleartext);
+    
+                    // First set order data
+                    setOrder({ id: id, ...details });
+    
                 } catch (error) {
                     console.error('Error fetching order details:', error);
+                    toast.error('Error fetching order details.');
                 }
             }
         }
     }, [id, isSellOrder]);
-
+    
     useEffect(() => {
         fetchOrderDetails();
     }, [fetchOrderDetails]);
@@ -67,6 +66,7 @@ const OrderDetailsPage: React.FC = () => {
     return (
         <OrderDetails order={order} isSellOrder={isSellOrder === 'true'} />
     );
+
 };
 
 export default OrderDetailsPage;
@@ -76,210 +76,182 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const [messages, setMessages] = useState<string[]>([]);
     const [newMessage, setNewMessage] = useState<string>("");
     const [isAttested, setIsAttested] = useState(false);
-    const [isApproved, setIsApproved] = useState(false);
-    const [buttonText, setButtonText] = useState('Approve');
-    const cUsdTokenAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1" //"0x765DE816845861e75A25fCA122bb6898B8B1282a";
 
-    const approveSpend = async () => {
+
+    const attest = async (id: number) => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({provider});
-                let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
+                const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
 
-                const gasLimit = parseInt("600000");
-
-                const tokenAbi = [
-                    "function allowance(address owner, address spender) view returns (uint256)",
-                    "function approve(address spender, uint256 amount) returns (bool)"
-                ];
-                const tokenContract = new Contract(cUsdTokenAddress, tokenAbi, signer);
-
-                let tx = await tokenContract.approve(contractAddress, 10, { gasLimit });
-                setButtonText('Approving...');
+                const gasLimit = parseInt("6000000");
+                const tx = isSellOrder
+                    ? await contract.attest(id, 1, { gasLimit })
+                    : await contract.attest(id, 0, { gasLimit });
+                console.log(id);
                 await tx.wait();
-                setIsApproved(true);
-                toast.success('Approval successful!');
-
+                setIsAttested(true);
             } catch (error) {
-                console.error("Error approving spend:", error);
-                setIsApproved(false);
-                toast.error('Approval failed!');
+                console.error("Error making attestation:", error);
             }
-        } else {
-            toast.error('Ethereum object not found');
         }
-
-    }
-        const attest = async (id: number) => {
-            if (window.ethereum) {
-                try {
-                    const provider = new BrowserProvider(window.ethereum);
-                    const signer = await provider.getSigner();
-                    const contract = new Contract(contractAddress, abi, signer);
-                    const gasLimit = parseInt("6000000");
-                    const tx = isSellOrder
-                        ? await contract.attest(id, 1, { gasLimit })
-                        : await contract.attest(id, 0, { gasLimit });
-                    console.log(id);
-                    await tx.wait();
-                    setIsAttested(true);
-                } catch (error) {
-                    console.error("Error making attestation:", error);
-                }
+    };
+    const releaseAsset = async (id: number) => {
+        if (window.ethereum) {
+            try {
+                const provider = new BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const contract = new Contract(contractAddress, abi, signer);
+                const gasLimit = parseInt("6000000");
+                const tx = isSellOrder
+                    ? await contract.releaseAsset(id, 1, { gasLimit })
+                    : await contract.releaseAsset(id, 0, { gasLimit });
+                console.log(id);
+                await tx.wait();
+                //  router.push('/admin');
+            } catch (error) {
+                console.error("Error making transfer:", error);
             }
-        };
-        const releaseAsset = async (id: number) => {
-            if (window.ethereum) {
-                try {
-                    const provider = new BrowserProvider(window.ethereum);
-                    const signer = await provider.getSigner();
-                    const contract = new Contract(contractAddress, abi, signer);
-                    const gasLimit = parseInt("6000000");
-                    await  approveSpend();
-                    const tx = isSellOrder
-                        ? await contract.releaseAsset(id, 1, { gasLimit })
-                        : await contract.releaseAsset(id, 0, { gasLimit });
-                    console.log(id);
-                    await tx.wait();
-                    //  router.push('/admin');
-                } catch (error) {
-                    console.error("Error making transfer:", error);
-                }
-            }
-        };
+        }
+    };
 
-        const handleReturnHome = () => {
-            router.push('/admin');
-        };
+    const handleReturnHome = () => {
+        router.push('/admin');
+    };
 
-        const handleSendMessage = () => {
-            if (newMessage.trim() !== "") {
-                setMessages([...messages, newMessage]);
-                setNewMessage("");
-            }
-        };
-        const fiat = FiatCurrency[order[9]];
-        const units = order[1];
-        const price = order[2];
-        const buyer = order[8].toString();
-        const seller = order[7].toString();
-        const total = (units * price).toString();
+    const handleSendMessage = () => {
+        if (newMessage.trim() !== "") {
+            setMessages([...messages, newMessage]);
+            setNewMessage("");
+        }
+    };
 
 
-        return (
-            <div className="p-3">
-                <div className="flex items-center gap-2">
-                    <ArrowLeftCircleIcon
-                        onClick={handleReturnHome}
-                        className="h-6 cursor-pointer"
-                    />
+                    // Then unseal and set additional data
+                    const units =  client.unseal(contractAddress, details[1]);
+                    const rate =  client.unseal(contractAddress, details[2]);
+                    const account =  client.unseal(contractAddress, details[3]);
 
-                </div>
-                <div className="flex flex-col items-center text-lg font-bold">
-                    {isSellOrder ? 'Sell Order' : 'Buy Order'} #{order[0].toString()}
-                </div>
-                <div className="flex flex-col md:flex-row mt-6 gap-6">
-                    <div className="flex-1 bg-black p-4 rounded-lg shadow-md text-sm text-white">
-                        <div className="flex flex-col gap-4">
-                            <div className="flex justify-between">
-                                <span>Units:</span>
-                                <span>{order[1].toString()}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Price:</span>
-                                <span>{order[2].toString()}</span>
-                            </div>
-                            {isSellOrder && <div className="flex justify-between">
-                                <span>Account Number:</span>
-                                <span>{order[3].toString()}</span>
-                            </div>}
-                            {isSellOrder && <div className="flex justify-between">
-                                <span>Bank:</span>
-                                <span>{order[4]}</span>
-                            </div>}
-                            <div className="flex justify-between">
-                                <span>Status:</span>
-                                <span>{getStatusText(order[5])}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Paid:</span>
-                                <span>{getPaymentStatusText(order[6])}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Seller:</span>
-                                <span>{order[7]}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Buyer:</span>
-                                <span>{order[8]}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Fiat:</span>
-                                <span>{FiatCurrency[order[9]]}</span>
-                            </div>
+    const fiat = FiatCurrency[order[9]];
+    const buyer = order[8].toString();
+    const seller = order[7].toString();
+    const total = (units * rate).toString();
+
+
+
+    return (
+        <div className="p-3">
+            <div className="flex items-center gap-2">
+                <ArrowLeftCircleIcon
+                    onClick={handleReturnHome}
+                    className="h-6 cursor-pointer"
+                />
+
+            </div>
+            <div className="flex flex-col items-center text-lg font-bold">
+                {isSellOrder ? 'Sell Order' : 'Buy Order'} #{order[0].toString()}
+            </div>
+            <div className="flex flex-col md:flex-row mt-6 gap-6">
+                <div className="flex-1 bg-black p-4 rounded-lg shadow-md text-sm text-white">
+                    <div className="flex flex-col gap-4">
+                        <div className="flex justify-between">
+                            <span>Units:</span>
+                            <span>{units.toString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Price:</span>
+                            <span>{rate.toString()}</span>
+                        </div>
+                        {isSellOrder && <div className="flex justify-between">
+                            <span>Account Number:</span>
+                            <span>{account.toString()}</span>
+                        </div>}
+                        {isSellOrder && <div className="flex justify-between">
+                            <span>Bank:</span>
+                            <span>{order[4]}</span>
+                        </div>}
+                        <div className="flex justify-between">
+                            <span>Status:</span>
+                            <span>{getStatusText(order[5])}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Paid:</span>
+                            <span>{getPaymentStatusText(order[6])}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Seller:</span>
+                            <span>{order[7]}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Buyer:</span>
+                            <span>{order[8]}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Fiat:</span>
+                            <span>{FiatCurrency[order[9]]}</span>
                         </div>
                     </div>
+                </div>
 
-                    <div className="flex-1 bg-black p-4 rounded-lg shadow-md text-white">
-                        <div className="text-lg font-bold mb-4">Messages</div>
-                        <div className="flex flex-col gap-2 max-h-96 overflow-y-auto">
-                            {messages.map((msg, index) => (
-                                <div key={index} className="flex items-start gap-2">
-                                    <UserIcon className="h-5 w-5 text-gray-400" />
-                                    <div className="bg-black p-2 rounded-lg">
-                                        {msg}
-                                    </div>
+                <div className="flex-1 bg-black p-4 rounded-lg shadow-md text-white">
+                    <div className="text-lg font-bold mb-4">Messages</div>
+                    <div className="flex flex-col gap-2 max-h-96 overflow-y-auto">
+                        {messages.map((msg, index) => (
+                            <div key={index} className="flex items-start gap-2">
+                                <UserIcon className="h-5 w-5 text-gray-400" />
+                                <div className="bg-black p-2 rounded-lg">
+                                    {msg}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="mt-4 flex gap-2">
-                            <input
-                                type="text"
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                className="flex-1 p-2 rounded-lg bg-black text-white"
-                                placeholder="Type your message..."
-                            />
-                            <button
-                                onClick={handleSendMessage}
-                                className="px-4 py-2 bg-prosperity rounded-lg text-black"
-                            >
-                                Send
-                            </button>
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
-
-                <div className="mt-6 text-sm bg-black p-4 rounded-lg text-gray-600">
-                    By clicking the Attest button, I affirmed I am sure {buyer} has transferred  {total}{fiat} to {seller}
-                </div>
-
-                <div className="mt-6 flex gap-4 text-sm">
-                    <button
-                        disabled={isAttested}
-                        onClick={() => attest(order.id)}
-                        className={`${!isAttested
-                            ? "text-prosperity bg-black hover:bg-black hover:text-white"
-                            : "bg-black/10 cursor-not-allowed text-white"
-                            } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
-                        Attest
-                    </button>
-                </div>
-                <div className="mt-6 flex gap-4 text-sm">
-                    <button
-                        disabled={!isAttested}
-                        onClick={() => releaseAsset(order.id)}
-                        className={`${isAttested
-                            ? "text-prosperity bg-black hover:bg-black hover:text-white"
-                            : "bg-black/10 cursor-not-allowed text-white"
-                            } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
-                        Release
-                    </button>
+                    <div className="mt-4 flex gap-2">
+                        <input
+                            type="text"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            className="flex-1 p-2 rounded-lg bg-black text-white"
+                            placeholder="Type your message..."
+                        />
+                        <button
+                            onClick={handleSendMessage}
+                            className="px-4 py-2 bg-prosperity rounded-lg text-black"
+                        >
+                            Send
+                        </button>
+                    </div>
                 </div>
             </div>
-        );
-    };
+
+            <div className="mt-6 text-sm bg-black p-4 rounded-lg text-gray-600">
+                By clicking the Attest button, I affirmed I am sure {buyer} has transferred  {total}{fiat} to {seller}
+            </div>
+
+            <div className="mt-6 flex gap-4 text-sm">
+                <button
+                    disabled={isAttested}
+                    onClick={() => attest(order.id)}
+                    className={`${!isAttested
+                        ? "text-prosperity bg-black hover:bg-black hover:text-white"
+                        : "bg-black/10 cursor-not-allowed text-white"
+                        } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
+                    Attest
+                </button>
+            </div>
+            <div className="mt-6 flex gap-4 text-sm">
+                <button
+                    disabled={!isAttested}
+                    onClick={() => releaseAsset(order.id)}
+                    className={`${isAttested
+                        ? "text-prosperity bg-black hover:bg-black hover:text-white"
+                        : "bg-black/10 cursor-not-allowed text-white"
+                        } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
+                    Release
+                </button>
+            </div>
+        </div>
+    );
+};
