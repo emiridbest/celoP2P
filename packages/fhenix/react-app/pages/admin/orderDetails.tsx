@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { BrowserProvider, Contract } from 'ethers';
-import { FhenixClient } from 'fhenixjs';
+import { EncryptionTypes, FhenixClient } from 'fhenixjs';
 import { JsonRpcProvider } from 'ethers';
 import { contractAddress, abi } from '@/utils/p2pAbi';
 import { Order } from './index';
@@ -36,25 +36,26 @@ const OrderDetailsPage: React.FC = () => {
         if (id && typeof id === 'string') {
             if (window.ethereum) {
                 try {
+
                     const provider = new BrowserProvider(window.ethereum);
                     const client = new FhenixClient({ provider });
+                    //  let encrypted = await client.encrypt(5, EncryptionTypes.uint8);
                     const signer = await provider.getSigner();
                     const contract = new Contract(contractAddress, abi, signer);
+                    const address = await signer.getAddress();
+
                     const details = isSellOrder === 'true'
                         ? await contract.sellOrders(id)
                         : await contract.buyOrders(id);
-    
-                    // First set order data
+
                     setOrder({ id: id, ...details });
-    
                 } catch (error) {
                     console.error('Error fetching order details:', error);
-                    toast.error('Error fetching order details.');
                 }
             }
         }
     }, [id, isSellOrder]);
-    
+
     useEffect(() => {
         fetchOrderDetails();
     }, [fetchOrderDetails]);
@@ -66,7 +67,6 @@ const OrderDetailsPage: React.FC = () => {
     return (
         <OrderDetails order={order} isSellOrder={isSellOrder === 'true'} />
     );
-
 };
 
 export default OrderDetailsPage;
@@ -76,17 +76,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const [messages, setMessages] = useState<string[]>([]);
     const [newMessage, setNewMessage] = useState<string>("");
     const [isAttested, setIsAttested] = useState(false);
-
+    const [isApproved, setIsApproved] = useState(false);
+    const [buttonText, setButtonText] = useState('Approve');
 
     const attest = async (id: number) => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-                const address = await signer.getAddress();
-
                 const gasLimit = parseInt("6000000");
                 const tx = isSellOrder
                     ? await contract.attest(id, 1, { gasLimit })
@@ -128,18 +126,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
             setNewMessage("");
         }
     };
-
-
-                    // Then unseal and set additional data
-                    const units =  client.unseal(contractAddress, details[1]);
-                    const rate =  client.unseal(contractAddress, details[2]);
-                    const account =  client.unseal(contractAddress, details[3]);
-
+    const provider = new BrowserProvider(window.ethereum);
+    const client = new FhenixClient({ provider });
     const fiat = FiatCurrency[order[9]];
+    const units = client.unseal(contractAddress, order[1]);
+    const price = client.unseal(contractAddress, order[2]);
+    const account = client.unseal(contractAddress, order[3]);
     const buyer = order[8].toString();
     const seller = order[7].toString();
-    const total = (units * rate).toString();
-
+    const total = (units * price).toString();
 
 
     return (
@@ -163,7 +158,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                         </div>
                         <div className="flex justify-between">
                             <span>Price:</span>
-                            <span>{rate.toString()}</span>
+                            <span>{price.toString()}</span>
                         </div>
                         {isSellOrder && <div className="flex justify-between">
                             <span>Account Number:</span>

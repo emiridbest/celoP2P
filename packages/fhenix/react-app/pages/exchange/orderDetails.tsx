@@ -5,7 +5,7 @@ import { contractAddress, abi } from '@/utils/p2pAbi';
 import { Order } from './index';
 import { ArrowLeftCircleIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
-import { FhenixClient } from 'fhenixjs';
+import { EncryptionTypes, FhenixClient } from 'fhenixjs';
 import { JsonRpcProvider } from 'ethers';
 
 enum FiatCurrency {
@@ -35,21 +35,15 @@ const OrderDetailsPage: React.FC = () => {
         if (id && typeof id === 'string') {
             if (window.ethereum) {
                 try {
-
                     const provider = new BrowserProvider(window.ethereum);
-                    const client = new FhenixClient({ provider });
-                    let encrypted = await client.encrypt(id, EncryptionTypes.uint8);
                     const signer = await provider.getSigner();
-                    // get contract
-                    const address = await signer.getAddress();
+                    const contract = new Contract(contractAddress, abi, signer);
 
-                    // get contract
-                    const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
                     const details = isSellOrder === 'true'
-                        ? await contract.sellOrders(encrypted)
-                        : await contract.buyOrders(encrypted);
-                    const cleartext = client.unseal(contractAddress, { id: Number(id), ...details });
-                    setOrder(cleartext);
+                        ? await contract.sellOrders(Number(id))
+                        : await contract.buyOrders(Number(id));
+
+                    setOrder({ id: Number(id), ...details });
                 } catch (error) {
                     console.error('Error fetching order details:', error);
                 }
@@ -85,7 +79,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                 const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const address = await signer.getAddress();
-                const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
+                const contract = new Contract(contractAddress, abi, signer);
                 const tx = isSellOrder
                     ? await contract.updateSellOrderToPaid()
                     : await contract.updateBuyOrderToPaid(id);
@@ -104,10 +98,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                 const provider = new BrowserProvider(window.ethereum);
                 const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
-                const address = await signer.getAddress();
-
-                // get contract
-                const contract =  new ethers.Contract(CONTRACT_NAME, contractAddress);
+                const contract = new Contract(contractAddress, abi, signer);
                 const tx = isSellOrder
                     ? await contract.updateSellOrderToActive(id)
                     : await contract.updateBuyOrderToActive(id);
@@ -130,12 +121,17 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
             setNewMessage("");
         }
     };
-    const fiat = FiatCurrency[order[9]];
-    const units = order[1];
-    const price = order[2];
-    const buyer = order[8].toString();
-    const seller = order[7].toString();
-    const total = (units * price).toString();
+    const provider = new BrowserProvider(window.ethereum);
+    const client = new FhenixClient({ provider });
+
+        const fiat = FiatCurrency[order[9]];
+        const units = client.unseal(contractAddress,  order[1]);
+        const account = client.unseal(contractAddress,  order[3]);
+        const price = client.unseal(contractAddress,  order[2]);
+        const buyer = order[8].toString();
+        const seller = order[7].toString();
+        const total = (units * price).toString();
+
 
     function truncateAddress(address: string, startLength = 6, endLength = 4) {
         if (!address) return '';
@@ -161,15 +157,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between">
                             <span>Units:</span>
-                            <span>{order[1].toString()}</span>
+                            <span>{units.toString()}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Price:</span>
-                            <span>{order[2].toString()}</span>
+                            <span>{price.toString()}</span>
                         </div>
                         {isSellOrder && <div className="flex justify-between">
                             <span>Account Number:</span>
-                            <span>{order[3].toString()}</span>
+                            <span>{account.toString()}</span>
                         </div>}
                         {isSellOrder && <div className="flex justify-between">
                             <span>Bank:</span>
