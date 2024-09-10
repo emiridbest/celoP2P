@@ -86,7 +86,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                 const provider = new BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
-                const gasLimit = parseInt("6000000");
+                const gasLimit = parseInt("60000000000");
                 const tx = isSellOrder
                     ? await contract.releaseAsset(id, 1, { gasLimit })
                     : await contract.releaseAsset(id, 0, { gasLimit });

@@ -24,16 +24,16 @@ const AddOrder: React.FC = () => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({ provider });
-                let encrypted = await client.encrypt(amount, EncryptionTypes.uint128);
-                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint128);
-                let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint128);
+          //      const client = new FhenixClient({ provider });
+        //        let encrypted = await client.encrypt(amount, EncryptionTypes.uint128);
+          //      let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint128);
+            //    let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint128);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
 
-                const gasLimit = parseInt("600000");
-                const tx = await contract.addSellOrder(encrypted, encryptedPrice, fiatCurrency, encryptedAccountNumber, bank, { gasLimit });
+                const gasLimit = parseInt("600000000");
+                const tx = await contract.addSellOrder(amount, price, fiatCurrency, accountNumber, bank, { gasLimit });
                 await tx.wait();
                 router.push('/exchange');
             } catch (error) {
@@ -47,16 +47,16 @@ const AddOrder: React.FC = () => {
             try {
 
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({ provider });
-                let encrypted = await client.encrypt(amount, EncryptionTypes.uint128);
-                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint128);
-                let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint128);
+              //  const client = new FhenixClient({ provider });
+                //let encrypted = await client.encrypt(amount, EncryptionTypes.uint128);
+                //let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint128);
+                //let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint128);
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
 
-                const gasLimit = parseInt("600000");
-                const tx = await contract.addBuyOrder(encrypted, encryptedPrice, fiatCurrency, encryptedAccountNumber, bank, { gasLimit });
+                const gasLimit = parseInt("600000000");
+                const tx = await contract.addBuyOrder(amount, price, fiatCurrency, accountNumber, bank, { gasLimit });
                 await tx.wait();
                 router.push('/exchange');
             } catch (error) {

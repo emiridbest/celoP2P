@@ -38,7 +38,7 @@ const Main: React.FC = () => {
                 const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const address = await signer.getAddress();
-                const contract = new ethers.Contract(CONTRACT_NAME, contractAddress);
+                const contract = new Contract(contractAddress, abi, signer);
                 const sellOrderIds = await contract.getOpenSellOrders();
                 const buyOrderIds = await contract.getOpenBuyOrders();
 
@@ -74,7 +74,7 @@ const Main: React.FC = () => {
                 const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const address = await signer.getAddress();
-                const contract = new ethers.Contract(CONTRACT_NAME, contractAddress);
+                const contract = new Contract(contractAddress, abi, signer);
                 const sellOrderIds = await contract.myOpenSellorders();
                 const buyOrderIds = await contract.myOpenBuyOrders();
 
