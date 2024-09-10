@@ -19,21 +19,20 @@ interface OrderCardProps {
 const OrderCard: React.FC<OrderCardProps> = ({ order, isSellOrder }) => {
     const router = useRouter();
 
-
     const handleViewDetails = (id: number, isSellOrder: boolean) => {
-        router.push(`/admin/orderDetails?id=${id}&isSellOrder=${isSellOrder}`);
+        router.push(`/exchange/orderDetails?id=${id}&isSellOrder=${isSellOrder}`);
     };
 
     return (
         <div className="flex justify-between items-center gap-2 py-4 px-6 rounded-lg shadow-md m-2 bg-black text-white">
             <div className="flex flex-col items-start">
                 <div className="font-bold">{isSellOrder ? 'Sell Order' : 'Buy Order'} #{order?.[0].toString()}</div>
-                <div className="text-sm whitespace-nowrap">Units: {order[1]?.toString()}</div>
-                <div className="text-sm whitespace-nowrap">Price: {order[2]?.toString()}</div>
+                <div className="text-sm whitespace-nowrap">Units: {order?.[1].toString()}</div>
+                <div className="text-sm whitespace-nowrap">Price: {order?.[2].toString()}</div>
             </div>
             <div className="flex flex-col items-start mt-6">
                 {isSellOrder && <div className="text-sm whitespace-nowrap">Bank: {order?.[4]}</div>}
-                <div className="text-sm whitespace-nowrap">Fiat: {FiatCurrency[order?.[9]]}</div>
+                <div className="text-sm whitespace-nowrap">Fiat: {FiatCurrency[order?.[8]]}</div>
             </div>
             <div className="flex flex-col items-start">
                 <button
