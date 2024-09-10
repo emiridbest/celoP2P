@@ -1,4 +1,4 @@
-export const contractAddress = "0xe0457b819ff7b12c69bed004b01a93a7a08ad8a2";
+export const contractAddress = "0xb98c7b1be440fef66952b5b8a5d4a18958ec04e6";
 export const abi = [
 	{
 		"inputs": [],
@@ -595,30 +595,6 @@ export const abi = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isSellOrder",
-				"type": "bool"
-			}
-		],
-		"name": "attest",
-		"outputs": [
-			{
-				"internalType": "uint64",
-				"name": "",
-				"type": "uint64"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "account",
 				"type": "address"
@@ -730,11 +706,6 @@ export const abi = [
 				"internalType": "enum AttestedCeloP2P.Fiat",
 				"name": "fiatCurrency",
 				"type": "uint8"
-			},
-			{
-				"internalType": "bool",
-				"name": "isAttested",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -799,11 +770,6 @@ export const abi = [
 				"internalType": "enum AttestedCeloP2P.Fiat",
 				"name": "fiatCurrency",
 				"type": "uint8"
-			},
-			{
-				"internalType": "bool",
-				"name": "isAttested",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -949,11 +915,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1024,11 +985,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1099,11 +1055,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1174,11 +1125,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1255,11 +1201,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1330,11 +1271,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1405,11 +1341,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1491,11 +1422,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1572,11 +1498,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1647,11 +1568,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1722,11 +1638,6 @@ export const abi = [
 						"internalType": "enum AttestedCeloP2P.Fiat",
 						"name": "fiatCurrency",
 						"type": "uint8"
-					},
-					{
-						"internalType": "bool",
-						"name": "isAttested",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct AttestedCeloP2P.Order[]",
@@ -1789,19 +1700,6 @@ export const abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "schemaId",
-		"outputs": [
-			{
-				"internalType": "uint64",
-				"name": "",
-				"type": "uint64"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -1860,11 +1758,6 @@ export const abi = [
 				"internalType": "enum AttestedCeloP2P.Fiat",
 				"name": "fiatCurrency",
 				"type": "uint8"
-			},
-			{
-				"internalType": "bool",
-				"name": "isAttested",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -1929,50 +1822,6 @@ export const abi = [
 				"internalType": "enum AttestedCeloP2P.Fiat",
 				"name": "fiatCurrency",
 				"type": "uint8"
-			},
-			{
-				"internalType": "bool",
-				"name": "isAttested",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "instance",
-				"type": "address"
-			}
-		],
-		"name": "setSPInstance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint64",
-				"name": "schemaId_",
-				"type": "uint64"
-			}
-		],
-		"name": "setSchemaID",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "spInstance",
-		"outputs": [
-			{
-				"internalType": "contract ISP",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",

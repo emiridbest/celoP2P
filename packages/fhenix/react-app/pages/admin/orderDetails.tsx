@@ -79,24 +79,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
     const [isApproved, setIsApproved] = useState(false);
     const [buttonText, setButtonText] = useState('Approve');
 
-    const attest = async (id: number) => {
-        if (window.ethereum) {
-            try {
-                const provider = new BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
-                const gasLimit = parseInt("6000000");
-                const tx = isSellOrder
-                    ? await contract.attest(id, 1, { gasLimit })
-                    : await contract.attest(id, 0, { gasLimit });
-                console.log(id);
-                await tx.wait();
-                setIsAttested(true);
-            } catch (error) {
-                console.error("Error making attestation:", error);
-            }
-        }
-    };
+
     const releaseAsset = async (id: number) => {
         if (window.ethereum) {
             try {
@@ -222,25 +205,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                 By clicking the Attest button, I affirmed I am sure {buyer} has transferred  {total}{fiat} to {seller}
             </div>
 
+
             <div className="mt-6 flex gap-4 text-sm">
                 <button
-                    disabled={isAttested}
-                    onClick={() => attest(order.id)}
-                    className={`${!isAttested
-                        ? "text-prosperity bg-black hover:bg-black hover:text-white"
-                        : "bg-black/10 cursor-not-allowed text-white"
-                        } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
-                    Attest
-                </button>
-            </div>
-            <div className="mt-6 flex gap-4 text-sm">
-                <button
-                    disabled={!isAttested}
                     onClick={() => releaseAsset(order.id)}
-                    className={`${isAttested
-                        ? "text-prosperity bg-black hover:bg-black hover:text-white"
-                        : "bg-black/10 cursor-not-allowed text-white"
-                        } inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2 `}                >
+                    className="inline-flex w-full text-black items-center justify-center rounded-md p-2 mb-2"               >
                     Release
                 </button>
             </div>
