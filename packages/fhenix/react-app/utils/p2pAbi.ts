@@ -1,5 +1,10 @@
-export const contractAddress = "0xe68b7da6b91c6122c1a5d9abf70a6deb07f5f89f";
+export const contractAddress = "0xe0457b819ff7b12c69bed004b01a93a7a08ad8a2";
 export const abi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"inputs": [],
 		"name": "AttestationWrongAttester",
@@ -385,6 +390,30 @@ export const abi = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "_allowanceEncrypted",
+		"outputs": [
+			{
+				"internalType": "euint128",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "euint128",
 				"name": "_amount",
 				"type": "uint256"
@@ -446,6 +475,66 @@ export const abi = [
 		"name": "addSellOrder",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "bytes32",
+						"name": "publicKey",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "signature",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct Permission",
+				"name": "permission",
+				"type": "tuple"
+			}
+		],
+		"name": "allowanceEncrypted",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -525,446 +614,6 @@ export const abi = [
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isSellOrder",
-				"type": "bool"
-			}
-		],
-		"name": "releaseAsset",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint64",
-				"name": "schemaId_",
-				"type": "uint64"
-			}
-		],
-		"name": "setSchemaID",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "instance",
-				"type": "address"
-			}
-		],
-		"name": "setSPInstance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"components": [
-					{
-						"internalType": "bytes",
-						"name": "data",
-						"type": "bytes"
-					}
-				],
-				"internalType": "struct inEuint128",
-				"name": "encryptedAmount",
-				"type": "tuple"
-			}
-		],
-		"name": "transferEncrypted",
-		"outputs": [
-			{
-				"internalType": "euint128",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "euint128",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferEncrypted",
-		"outputs": [
-			{
-				"internalType": "euint128",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"components": [
-					{
-						"internalType": "bytes",
-						"name": "data",
-						"type": "bytes"
-					}
-				],
-				"internalType": "struct inEuint128",
-				"name": "value",
-				"type": "tuple"
-			}
-		],
-		"name": "transferFromEncrypted",
-		"outputs": [
-			{
-				"internalType": "euint128",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "euint128",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFromEncrypted",
-		"outputs": [
-			{
-				"internalType": "euint128",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint32",
-				"name": "amount",
-				"type": "uint32"
-			}
-		],
-		"name": "unwrap",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "updateBuyOrderToActive",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "updateBuyOrderToPaid",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isSellOrder",
-				"type": "bool"
-			}
-		],
-		"name": "updateOrderToActive",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isSellOrder",
-				"type": "bool"
-			}
-		],
-		"name": "updateOrderToPaid",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "updateSellOrderToActive",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "updateSellOrderToPaid",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint32",
-				"name": "amount",
-				"type": "uint32"
-			}
-		],
-		"name": "wrap",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "_allowanceEncrypted",
-		"outputs": [
-			{
-				"internalType": "euint128",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"components": [
-					{
-						"internalType": "bytes32",
-						"name": "publicKey",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bytes",
-						"name": "signature",
-						"type": "bytes"
-					}
-				],
-				"internalType": "struct Permission",
-				"name": "permission",
-				"type": "tuple"
-			}
-		],
-		"name": "allowanceEncrypted",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1541,6 +1190,554 @@ export const abi = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "enum AttestedCeloP2P.Fiat",
+				"name": "_fiat",
+				"type": "uint8"
+			}
+		],
+		"name": "getBuyOrdersByFiat",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOpenBuyOrders",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOpenSellOrders",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum AttestedCeloP2P.Fiat",
+				"name": "_fiat",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bool",
+				"name": "isSellOrder",
+				"type": "bool"
+			}
+		],
+		"name": "getOrdersByFiat",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum AttestedCeloP2P.Fiat",
+				"name": "_fiat",
+				"type": "uint8"
+			}
+		],
+		"name": "getSellOrdersByFiat",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "myOpenBuyOrders",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "myOpenSellorders",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint128",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "euint256",
+						"name": "accountNumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "bank",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "messages",
+						"type": "string[]"
+					},
+					{
+						"internalType": "bool",
+						"name": "isActive",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isComplete",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "enum AttestedCeloP2P.Fiat",
+						"name": "fiatCurrency",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "isAttested",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct AttestedCeloP2P.Order[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "name",
 		"outputs": [
@@ -1564,6 +1761,31 @@ export const abi = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isSellOrder",
+				"type": "bool"
+			}
+		],
+		"name": "releaseAsset",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1718,6 +1940,32 @@ export const abi = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "instance",
+				"type": "address"
+			}
+		],
+		"name": "setSPInstance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "schemaId_",
+				"type": "uint64"
+			}
+		],
+		"name": "setSchemaID",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "spInstance",
 		"outputs": [
@@ -1779,6 +2027,293 @@ export const abi = [
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct inEuint128",
+				"name": "encryptedAmount",
+				"type": "tuple"
+			}
+		],
+		"name": "transferEncrypted",
+		"outputs": [
+			{
+				"internalType": "euint128",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "euint128",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferEncrypted",
+		"outputs": [
+			{
+				"internalType": "euint128",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct inEuint128",
+				"name": "value",
+				"type": "tuple"
+			}
+		],
+		"name": "transferFromEncrypted",
+		"outputs": [
+			{
+				"internalType": "euint128",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "euint128",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFromEncrypted",
+		"outputs": [
+			{
+				"internalType": "euint128",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "amount",
+				"type": "uint32"
+			}
+		],
+		"name": "unwrap",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "updateBuyOrderToActive",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "updateBuyOrderToPaid",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isSellOrder",
+				"type": "bool"
+			}
+		],
+		"name": "updateOrderToActive",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isSellOrder",
+				"type": "bool"
+			}
+		],
+		"name": "updateOrderToPaid",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "updateSellOrderToActive",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "updateSellOrderToPaid",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -1792,6 +2327,19 @@ export const abi = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "amount",
+				"type": "uint32"
+			}
+		],
+		"name": "wrap",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

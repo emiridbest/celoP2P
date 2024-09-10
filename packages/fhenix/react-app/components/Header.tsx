@@ -106,16 +106,6 @@ export default function Header() {
 
               <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperity px-3 py-2 rounded-md">
                 <Link
-                  onClick={() => router.push('/miniSafe')}
-                  className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small hover:bg-black hover:text-prosperity text-gray-900"
-                  href={""}
-                >
-                  Vault
-                </Link>
-              </div>
-
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-2 hover:bg-black hover:text-prosperity px-3 py-2 rounded-md">
-                <Link
                   onClick={() => router.push('/exchange')}
                   className="inline-flex items-center border-b-1 border-black px-1 pt-1 text-sm font-small hover:bg-black hover:text-prosperity text-gray-900"
                   href={""}
@@ -197,12 +187,7 @@ export default function Header() {
               </div>
 
               {/* Connect Wallet Button */}
-              <button
-                onClick={fnxConnect}
-                className="bg-prosperity text-black px-4 py-2 rounded-md hover:bg-black hover:text-prosperity"
-              >
-                Connect Wallet
-              </button>
+    
             </div>
           </div>
 

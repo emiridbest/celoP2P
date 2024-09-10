@@ -32,7 +32,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, isSellOrder }) => {
             </div>
             <div className="flex flex-col items-start mt-6">
                 {isSellOrder && <div className="text-sm whitespace-nowrap">Bank: {order?.[4]}</div>}
-                <div className="text-sm whitespace-nowrap">Fiat: {FiatCurrency[order?.[8]]}</div>
+                <div className="text-sm whitespace-nowrap">Fiat: {FiatCurrency[order?.[9]]}</div>
             </div>
             <div className="flex flex-col items-start">
                 <button

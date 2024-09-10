@@ -126,12 +126,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
             setNewMessage("");
         }
     };
-    const provider = new BrowserProvider(window.ethereum);
-    const client = new FhenixClient({ provider });
     const fiat = FiatCurrency[order[9]];
-    const units = client.unseal(contractAddress, order[1]);
-    const price = client.unseal(contractAddress, order[2]);
-    const account = client.unseal(contractAddress, order[3]);
+    const units = order[1];
+    const price = order[2];
     const buyer = order[8].toString();
     const seller = order[7].toString();
     const total = (units * price).toString();
@@ -154,15 +151,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between">
                             <span>Units:</span>
-                            <span>{units.toString()}</span>
+                            <span>{order[1].toString()}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Price:</span>
-                            <span>{price.toString()}</span>
+                            <span>{order[2].toString()}</span>
                         </div>
                         {isSellOrder && <div className="flex justify-between">
                             <span>Account Number:</span>
-                            <span>{account.toString()}</span>
+                            <span>{order[3].toString()}</span>
                         </div>}
                         {isSellOrder && <div className="flex justify-between">
                             <span>Bank:</span>

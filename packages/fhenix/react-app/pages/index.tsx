@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import router, { useRouter } from 'next/router';
 import Image from "next/image";
-import TransactionList from '../components/TransactionList';
-import Balance from '@/components/Balance';
 import Showcase from '@/components/Showcase';
 import Hero from '@/components/Hero';
 import Links from '@/components/Links';
@@ -23,11 +21,9 @@ const Esusu: React.FC = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 ">
-      <Balance />
       <Hero />
       <Showcase />
       <Links />
-      <TransactionList />
     </div>
   );
 };
