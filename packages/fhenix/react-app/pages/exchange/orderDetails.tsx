@@ -76,13 +76,14 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
             try {
 
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const address = await signer.getAddress();
                 const contract = new Contract(contractAddress, abi, signer);
+                const gasLimit = parseInt("600000000");
+
                 const tx = isSellOrder
-                    ? await contract.updateSellOrderToPaid()
-                    : await contract.updateBuyOrderToPaid(id);
+                    ? await contract.updateSellOrderToPaid(id, {gasLimit})
+                    : await contract.updateBuyOrderToPaid(id, {gasLimit});
 
                 await tx.wait();
                 router.push('/exchange');
@@ -96,12 +97,14 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order, isSellOrder }) => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const contract = new Contract(contractAddress, abi, signer);
+
+                const gasLimit = parseInt("600000000");
+
                 const tx = isSellOrder
-                    ? await contract.updateSellOrderToActive(id)
-                    : await contract.updateBuyOrderToActive(id);
+                    ? await contract.updateSellOrderToActive(id, {gasLimit})
+                    : await contract.updateBuyOrderToActive(id, {gasLimit});
 
                 await tx.wait();
                 router.push('/exchange');
