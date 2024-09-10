@@ -3,9 +3,6 @@
 import React from 'react';
 import { Order } from './index';
 import { useRouter } from 'next/router';
-import { contractAddress } from '@/utils/abi';
-import { BrowserProvider} from 'ethers';
-import { FhenixClient } from 'fhenixjs';
 
 enum FiatCurrency {
     NGN = 0, // Nigerian Naira

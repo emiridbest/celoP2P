@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { contractAddress, abi } from '@/utils/p2pAbi';
-import { BrowserProvider, Contract, ethers } from 'ethers';
+import { BrowserProvider, Contract } from 'ethers';
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
-import { EncryptionTypes, FhenixClient } from 'fhenixjs';
+import { FhenixClient, EncryptionTypes } from 'fhenixjs';
 
 enum FiatCurrency {
     NGN = 0, // Nigerian Naira
@@ -16,23 +16,24 @@ const AddOrder: React.FC = () => {
     const [amount, setAmount] = useState<number>(0);
     const [price, setPrice] = useState<number>(0);
     const [bank, setBank] = useState<string>('');
-    const [accountNumber, setAccountNumber] = useState<string>('');
+    const [accountNumber, setAccountNumber] = useState<number>(0);
     const [fiatCurrency, setFiatCurrency] = useState<FiatCurrency>(FiatCurrency.NGN);
     const router = useRouter();
 
-    const handleAddSellOrder = async (amount: number, price: number, bank: string, accountNumber: string, fiatCurrency: FiatCurrency) => {
+    const handleAddSellOrder = async (amount: number, price: number, bank: string, accountNumber: number, fiatCurrency: FiatCurrency) => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({provider});
-                let encryptedAmount = await client.encrypt(amount, EncryptionTypes.uint128);
-                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint256);
-                let encryptedAccount = await client.encrypt(Number(accountNumber), EncryptionTypes.uint256);
+                const client = new FhenixClient({ provider });
+                let encrypted = await client.encrypt(amount, EncryptionTypes.uint128);
+                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint128);
+                let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint128);
                 const signer = await provider.getSigner();
-                const contract = new ethers.Contract(contractAddress, abi, signer);
+                const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
-                const gasLimit = parseInt("60000000");
-                const tx = await contract.addSellOrder(encryptedAmount, encryptedPrice, fiatCurrency, encryptedAccount, bank, {gasLimit});
+
+                const gasLimit = parseInt("600000");
+                const tx = await contract.addSellOrder(encrypted, encryptedPrice, fiatCurrency, encryptedAccountNumber, bank, { gasLimit });
                 await tx.wait();
                 router.push('/exchange');
             } catch (error) {
@@ -41,19 +42,21 @@ const AddOrder: React.FC = () => {
         }
     };
 
-    const handleAddBuyOrder = async (amount: number, price: number, bank: string, accountNumber: string, fiatCurrency: FiatCurrency) => {
+    const handleAddBuyOrder = async (amount: number, price: number, bank: string, accountNumber: number, fiatCurrency: FiatCurrency) => {
         if (window.ethereum) {
             try {
+
                 const provider = new BrowserProvider(window.ethereum);
-                const client = new FhenixClient({provider});
-                let encryptedAmount = await client.encrypt(amount, EncryptionTypes.uint128);
-                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint256);
-                let encryptedAccount = await client.encrypt(Number(accountNumber), EncryptionTypes.uint256);
+                const client = new FhenixClient({ provider });
+                let encrypted = await client.encrypt(amount, EncryptionTypes.uint128);
+                let encryptedPrice = await client.encrypt(price, EncryptionTypes.uint128);
+                let encryptedAccountNumber = await client.encrypt(accountNumber, EncryptionTypes.uint128);
                 const signer = await provider.getSigner();
-                const contract = new ethers.Contract(contractAddress, abi, signer);
+                const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
-                const gasLimit = parseInt("60000000");
-                const tx = await contract.addBuyOrder(amount, price, fiatCurrency, accountNumber, bank, {gasLimit});
+
+                const gasLimit = parseInt("600000");
+                const tx = await contract.addBuyOrder(encrypted, encryptedPrice, fiatCurrency, encryptedAccountNumber, bank, { gasLimit });
                 await tx.wait();
                 router.push('/exchange');
             } catch (error) {
@@ -105,9 +108,9 @@ const AddOrder: React.FC = () => {
             <div className="mt-2">
                 <label className="block text-sm">Account Number</label>
                 <input
-                    type="text"
+                    type="number"
                     value={accountNumber}
-                    onChange={(e) => setAccountNumber(e.target.value)}
+                    onChange={(e) => setAccountNumber(Number(e.target.value))}
                     className="border border-prosperity bg-black text-prosperity rounded-lg p-2 w-full"
                 />
             </div>
@@ -143,7 +146,4 @@ const AddOrder: React.FC = () => {
 };
 
 export default AddOrder;
-function parseEthers(_amount: number) {
-    throw new Error('Function not implemented.');
-}
 

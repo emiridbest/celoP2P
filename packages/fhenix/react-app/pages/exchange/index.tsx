@@ -5,7 +5,8 @@ import { BrowserProvider, Contract, ZeroAddress, ethers } from 'ethers';
 import OrderCard from './orderCard';
 import { useRouter } from 'next/router';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
-import { FhenixClient } from 'fhenixjs';
+import { FhenixClient, EncryptionTypes } from 'fhenixjs';
+import { JsonRpcProvider } from 'ethers';
 import MyOrders from './myOrders';
 
 
@@ -27,17 +28,17 @@ const Main: React.FC = () => {
     const [buyOrders, setBuyOrders] = useState<Order[]>([]);
     const [myBuyOrders, setMyBuyOrders] = useState<Order[]>([]);
     const [mySellOrders, setMySellOrders] = useState<Order[]>([]);
-
+    const CONTRACT_NAME = "AttestedCeloP2P";
     const router = useRouter();
 
     const getOrders = useCallback(async () => {
         if (window.ethereum) {
             try {
                 const provider = new BrowserProvider(window.ethereum);
+                const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
-                const contract = new Contract(contractAddress, abi, signer);
                 const address = await signer.getAddress();
-
+                const contract = new ethers.Contract(CONTRACT_NAME, contractAddress);
                 const sellOrderIds = await contract.getOpenSellOrders();
                 const buyOrderIds = await contract.getOpenBuyOrders();
 
@@ -73,9 +74,7 @@ const Main: React.FC = () => {
                 const client = new FhenixClient({ provider });
                 const signer = await provider.getSigner();
                 const address = await signer.getAddress();
-
-                const contract = new Contract(contractAddress, abi, signer);
-
+                const contract = new ethers.Contract(CONTRACT_NAME, contractAddress);
                 const sellOrderIds = await contract.myOpenSellorders();
                 const buyOrderIds = await contract.myOpenBuyOrders();
 

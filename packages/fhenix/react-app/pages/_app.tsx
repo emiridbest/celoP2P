@@ -5,10 +5,7 @@ import {
 import "@rainbow-me/rainbowkit/styles.css";
 import { injectedWallet, metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import { celo, celoAlfajores } from "viem/chains";
-import { WagmiProvider, createConfig, http } from "wagmi";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { useState, useEffect, useCallback } from 'react';
